@@ -25,7 +25,7 @@ export default function Chatroom() {
 
   const createmessage = async (e) => {
     e.preventDefault();
-      setinputer("");
+    setinputer("");
     const ans = new Date().toLocaleString();
     try {
       await addDoc(messagesCollectionRef, {
@@ -64,6 +64,10 @@ export default function Chatroom() {
     } catch (err) {
       console.error(err);
     }
+    window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+    // window.scrollTo({ left: 0, bottom: 0, behavior: "smooth" });
+    // document.getElementById("dummy").scrollIntoView(false,{ behaviour: "smooth" });
+
   };
 
   useEffect(() => {
@@ -84,76 +88,71 @@ export default function Chatroom() {
     }
   };
   const [inputer, setinputer] = useState("");
-const handleinput = (e) => {
-     setInput(e.target.value);
-     setinputer(e.target.value);
+  const handleinput = (e) => {
+    setInput(e.target.value);
+    setinputer(e.target.value);
     e.preventDefault();
-}
+  };
 
-let val="start";
+  let val = "start";
   return (
     <div>
       <button style={{ display: "flex" }} onClick={logout}>
         Log out
       </button>
-      <form onSubmit={createmessage}>
+       <div style={{ marginBottom: "10%", }}>
+        {
+          messageList.map((ele) => {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  color: "white",
+                  padding: "8px",
+                  borderRadius: "8px",
+                  margin: "3px",
+                  justifyContent: `${ele.userId === auth.currentUser.uid ? "end" : "start"}`,
+                  justifyContent: `${ele.userId === auth.currentUser.uid ? "end" : "start"}`,
+                  flexDirection: `${ele.userId === auth.currentUser.uid ? "row-reverse": "row"}`,
+                }}
+              >
+                <img
+                  src={
+                    ele.url ||
+                    "https://api.adorable.io/avatars/23/abott@adorable.png"
+                  } />
+                <div
+                  style={{
+                    // width: "100%",
+                    display: "flex",
+                    color: "white",
+                    padding: "8px",
+                    borderRadius: "8px",
+                    margin: "3px",
+                    // justifyContent: "start",
+                    backgroundColor: "green",
+                  }}
+                >
+                  {ele.desc}
+                </div>
+                </div>
+                )
+                }
+          )
+              }
+          </div>
+          <form onSubmit={createmessage}>
         <input
           placeholder="Your Message ..."
           onChange={handleinput}
           value={inputer}
         />
-        <button style={{alignContent:"center",justifyContent:"center"}}>🕊️</button>
+        <button style={{ alignContent: "center", justifyContent: "center" }}>
+          🕊️
+        </button>
       </form>
-      {messageList.map((ele) => {
-        return (
-           <div style={{
-            display: "flex",
-            color: "white",
-            padding: "8px",
-            borderRadius: "8px",
-            margin: "5px",
-            // justifyContent: "start",
-                justifyContent:"end",
-                marginBottom:"10%",
-                // backgroundColor: "#0099ff",
-              }}>
-            {ele.userId === auth.currentUser.uid ? (
-              <div style={{
-            
-                display: "flex",
-                justifyContent: "flex-end",
-                color: "white",
-                padding: "8px",
-                borderRadius: "8px",
-                margin: "5px",
-                backgroundColor:"#0099ff",
-                // marginBottom:"20%"
-                // justifyContent: "unset",position:"relative"
-            }}>
-                { ele.desc}
-              </div>
-            ) : (
-              <div  style={{
-               backgroundColor:"#0099ff",
-                display: "flex",
-                color: "white",
-                padding: "8px",
-                borderRadius: "8px",
-                margin: "5px",
-                justifyContent: "unset",
-          }}>
-                {ele.desc}
-              </div>
-            )}
-            <img
-              src={
-                ele.url ||
-                "https://api.adorable.io/avatars/23/abott@adorable.png"
-              }
-            />
-          </div>
-        );
-      })}
+    
+      <div className="dummy" id="dummy"></div>
     </div>
   );
-}
+  }
