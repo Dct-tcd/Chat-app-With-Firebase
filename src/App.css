@@ -51,7 +51,7 @@ main::-webkit-scrollbar-track {
 }
 
 main::-webkit-scrollbar-thumb {
-  background: #6649b8;
+  background: hwb(204 29% 22%);
 }
 
 form {
@@ -73,25 +73,27 @@ form button {
 
 input {
   line-height: 1.5;
-  width: 100%;
+  /* width: 350px; */
   font-size: 1.5rem;
   background: rgb(58, 58, 58);
   color: white;
-  outline: none;
+  /* outline: none; */
   border: none;
   padding: 0 10px;
 }
 
 button {
-  background-color: #282c34; /* Green */
+  background-color: #282c34; 
   border: none;
   color: white;
   padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
+  /* text-align: center; */
+  /* text-decoration: none; */
+  /* display: inline-block; */
   cursor: pointer;
   font-size: 1.25rem;
+  margin-top: 1%;
+  /* width: 335%; */
 }
 
 button:disabled {
@@ -103,11 +105,13 @@ button:disabled {
 .sign-in {
   color: #282c34;
   background: white;
-  max-width: 400px;
-  margin: 0 auto;
+  /* max-width: 400px; */
+  /* margin: 0 auto; */
 }
 
-
+/* .Diver{ */
+  /* background-color: #0b93f6; */
+/* } */
 
 
 ul, li {
@@ -147,10 +151,23 @@ html {
   background: #e5e5ea;
   color: black;
 }
-
 img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin: 2px 5px;
+}
+.Diver{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+} 
+.wrapper{
+  width: 335px;
+  /* display: flex;
+  justify-content: center;
+  flex-direction: column; */
+  /* justify-self: start; */
+  /* flex-wrap: wrap-reverse; */
 }

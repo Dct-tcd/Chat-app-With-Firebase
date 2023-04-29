@@ -13,8 +13,8 @@ import {
   uid,
 } from "firebase/firestore";
 import { signOut } from "firebase/auth";
-
 import style from "../App.css";
+import { useSelector } from "react-redux";
 export default function Chatroom() {
   const [message, setmessage] = useState("");
   const [messageList, setmessageList] = useState([]);
@@ -22,6 +22,9 @@ export default function Chatroom() {
   const [photourl, setphotourl] = useState("");
   const messagesCollectionRef = collection(db, "messages");
   // const q = query(collection(db, "messages").orderBy("createdAt"));
+  const { username } = useSelector((state) => {
+    return state;
+  });
 
   const createmessage = async (e) => {
     e.preventDefault();
@@ -32,6 +35,7 @@ export default function Chatroom() {
         createdAt: ans,
         desc: Input,
         url: photourl,
+        name: username,
         userId: auth?.currentUser?.uid,
       });
       getMessageList();
@@ -51,7 +55,7 @@ export default function Chatroom() {
         orderBy("createdAt", "desc"),
         limit(30)
       );
-
+      console.log(username, "1");
       const data = await getDocs(q);
       const filteredData = data.docs.map((doc) => ({
         ...doc.data(),
@@ -64,10 +68,13 @@ export default function Chatroom() {
     } catch (err) {
       console.error(err);
     }
-    window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+    window.scrollTo({
+      left: 0,
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
     // window.scrollTo({ left: 0, bottom: 0, behavior: "smooth" });
     // document.getElementById("dummy").scrollIntoView(false,{ behaviour: "smooth" });
-
   };
 
   useEffect(() => {
@@ -97,13 +104,46 @@ export default function Chatroom() {
   let val = "start";
   return (
     <div>
-      <button style={{ display: "flex" }} onClick={logout}>
+      <button className="logoutBtn" onClick={logout}>
         Log out
       </button>
-       <div style={{ marginBottom: "10%", }}>
-        {
-          messageList.map((ele) => {
-            return (
+      <div style={{ marginBottom: "10%" }}>
+        {messageList.map((ele) => {
+          return (
+            // <div>
+            <div
+              style={{
+                display: "flex",
+                color: "white",
+                padding: "8px",
+                borderRadius: "8px",
+                margin: "3px",
+                justifyContent: `${
+                  ele.userId === auth.currentUser.uid ? "end" : "start"
+                }`,
+                justifyContent: `${
+                  ele.userId === auth.currentUser.uid ? "end" : "start"
+                }`,
+                flexDirection: `${
+                  ele.userId === auth.currentUser.uid ? "row-reverse" : "row"
+                }`,
+              }}
+            >
+              {" "}
+              <button
+                  style={{
+                       padding:"0%",
+                    fontSize:"1rem"
+                  }}
+                  type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top"  title={`${ele.name}`}
+                >
+              <img
+                src={
+                  ele.url ||
+                  "https://api.adorable.io/avatars/23/abott@adorable.png"
+                }
+              />
+              </button>
               <div
                 style={{
                   display: "flex",
@@ -111,37 +151,23 @@ export default function Chatroom() {
                   padding: "8px",
                   borderRadius: "8px",
                   margin: "3px",
-                  justifyContent: `${ele.userId === auth.currentUser.uid ? "end" : "start"}`,
-                  justifyContent: `${ele.userId === auth.currentUser.uid ? "end" : "start"}`,
-                  flexDirection: `${ele.userId === auth.currentUser.uid ? "row-reverse": "row"}`,
+                  backgroundColor: `${
+                    ele.userId !== auth.currentUser.uid
+                      ? "green"
+                      : "hwb(204 29% 22%)"
+                  }`,
                 }}
               >
-                <img
-                  src={
-                    ele.url ||
-                    "https://api.adorable.io/avatars/23/abott@adorable.png"
-                  } />
-                <div
-                  style={{
-                    // width: "100%",
-                    display: "flex",
-                    color: "white",
-                    padding: "8px",
-                    borderRadius: "8px",
-                    margin: "3px",
-                    // justifyContent: "start",
-                    backgroundColor: "green",
-                  }}
-                >
+                
                   {ele.desc}
-                </div>
-                </div>
-                )
-                }
-          )
-              }
-          </div>
-          <form onSubmit={createmessage}>
+                {/* </button> */}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <form className="footer" onSubmit={createmessage}>
         <input
           placeholder="Your Message ..."
           onChange={handleinput}
@@ -151,8 +177,8 @@ export default function Chatroom() {
           🕊️
         </button>
       </form>
-    
+
       <div className="dummy" id="dummy"></div>
     </div>
   );
-  }
+}
