@@ -25,7 +25,7 @@ export default function Chatroom() {
   let newId = "";
   for (let ip = 0; ip < id.length; ip++) {
     // console.log(id[ip],"kkkkk");
-    if ((id[ip] >= "1" && id[ip] <= "9") || (id[ip] >= "A" && id[ip] <= "Z"))
+    if (id[ip] >= "0" && id[ip] <= "9")
       newId += id[ip];
   }
 
@@ -70,7 +70,7 @@ export default function Chatroom() {
         orderBy("createdAt", "desc"),
         limit(30)
       );
-      console.log(username, "1");
+      // console.log(username, "1");
       const data = await getDocs(q);
       const filteredData = data.docs.map((doc) => ({
         ...doc.data(),
@@ -83,8 +83,8 @@ export default function Chatroom() {
       const newList = filteredData.filter((e) => {
         return e.type == newId;
       });
-      console.log(newList, ";;;;");
-      setmessageList(newList.reverse());
+      // console.log(newList, ";;;;");
+      setmessageList(newList);
     } catch (err) {
       console.error(err);
     }

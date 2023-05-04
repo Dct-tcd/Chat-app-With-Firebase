@@ -20,7 +20,7 @@ export function Auth() {
 
   const signin = async () => {
     try {
-      setrr('none');
+      setrr("none");
       await signInWithPopup(auth, googleProvider);
     } catch (err) {
       console.error(err);
@@ -36,12 +36,20 @@ export function Auth() {
   };
   const tomper = () => {
     console.log(rr);
-    setrr('block');
-  }
+    setrr("block");
+  };
   // console.log("mounting");
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <div className="Diver" style={{ marginTop: "10%",textAlign:"center" }}>
+      <div
+        className="Diver"
+        style={{
+          marginTop: "10%",
+          marginBottom: "1%",
+          textAlign: "center",
+          color: "lightgreen",
+        }}
+      >
         <h1>Join Chat</h1>
         {/* <div className="wrapper"> */}
         <div>
@@ -51,13 +59,24 @@ export function Auth() {
               setName(e.target.value);
             }}
             value={Name}
+            style={{ marginTop: "2%" }}
           />
         </div>
-        <div style={{ color: "red", display:`${rr}` }}>
+        <div style={{ color: "red", display: `${rr}` }}>
           Please Provide a Name
         </div>
         <div>
-          <button  onClick={Name !== "" ? signin : tomper}>
+          <button
+            style={{
+              paddingLeft: "20%",
+              margin: "2%",
+              paddingRight: "20%",
+            display:"inline",
+              // color:"darkslategrey",
+              backgroundColor: "darkslategrey",
+            }}
+            onClick={Name !== "" ? signin : tomper}
+          >
             Sign in with Google
           </button>
         </div>

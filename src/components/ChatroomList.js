@@ -55,7 +55,7 @@ function ChatroomList() {
         id: doc.id,
       }));
       // console.log(filteredData,'::');
-      setroomList(filteredData.reverse());
+      setroomList(filteredData);
     } catch (err) {
       console.error(err);
     }
@@ -118,7 +118,7 @@ function ChatroomList() {
             style={{ marginLeft: "2%" }}
           />
           {/* <label> */}
-            <button
+            <button 
               // type="button"
               // className="btn btn-primary"
               style={{ backgroundColor: "blue"   , borderRadius:"10%" ,padding:"1% 1%",}}
