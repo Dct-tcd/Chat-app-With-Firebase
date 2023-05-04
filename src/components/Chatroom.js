@@ -131,7 +131,7 @@ for (let ip=0;ip<id.length;ip++)
       </button>
       </div>
 
-      <div style={{ marginBottom: "10%" }}>
+      <div style={{ marginBottom: "10%" , maxWidth: "728px"}}>
         {messageList.map((ele) => {
           return (
             // <div>
@@ -141,7 +141,8 @@ for (let ip=0;ip<id.length;ip++)
                 color: "white",
                 padding: "8px",
                 borderRadius: "8px",
-                margin: "3px",
+                margin: "3px", 
+                maxWidth: "728px" ,
                 justifyContent: `${
                   ele.userId === auth.currentUser.uid ? "end" : "start"
                 }`,

@@ -41,7 +41,7 @@ export function Auth() {
   // console.log("mounting");
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <div className="Diver" style={{ marginTop: "21%",textAlign:"center" }}>
+      <div className="Diver" style={{ marginTop: "10%",textAlign:"center" }}>
         <h1>Join Chat</h1>
         {/* <div className="wrapper"> */}
         <div>
