@@ -15,21 +15,21 @@ import {
 import { signOut } from "firebase/auth";
 import style from "../App.css";
 import { useSelector } from "react-redux";
-import {Link, useParams} from "react-router-dom"
+import { Link, useParams } from "react-router-dom";
 export default function Chatroom() {
-
   // useParams
-const   params= useParams();
-const   id = params.id;
-let newId="";
-for (let ip=0;ip<id.length;ip++)
-{
-  // console.log(id[ip],"kkkkk");
- if ((id[ip]>='a' && id[ip]<='z')||(id[ip]>='A' && id[ip]<='Z' ))  newId += id[ip];
-}
+  const params = useParams();
+  const id = params.id;
+  let newId = "";
+  for (let ip = 0; ip < id.length; ip++) {
+    // console.log(id[ip],"kkkkk");
+    if ((id[ip] >= "a" && id[ip] <= "z") || (id[ip] >= "A" && id[ip] <= "Z"))
+      newId += id[ip];
+  }
 
   const [message, setmessage] = useState("");
   const [messageList, setmessageList] = useState([]);
+  const [CopySuccess, setCopySuccess] = useState("none");
 
   const [photourl, setphotourl] = useState("");
   const messagesCollectionRef = collection(db, "messages");
@@ -49,7 +49,7 @@ for (let ip=0;ip<id.length;ip++)
         url: photourl,
         name: username,
         userId: auth?.currentUser?.uid,
-        type:newId,
+        type: newId,
       });
       getMessageList();
       // getMovieList();
@@ -77,11 +77,12 @@ for (let ip=0;ip<id.length;ip++)
       //   console.log(chatQuery);
       //   filteredData.sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis()) ;
       console.log(filteredData);
-      
-      const newList = filteredData.filter( (e)=>{return e.type == newId});
+
+      const newList = filteredData.filter((e) => {
+        return e.type == newId;
+      });
       console.log(newList, ";;;;");
       setmessageList(newList.reverse());
-
     } catch (err) {
       console.error(err);
     }
@@ -118,21 +119,75 @@ for (let ip=0;ip<id.length;ip++)
     e.preventDefault();
   };
 
+  const copyToClipBoard = async (copyMe) => {
+    try {
+      await navigator.clipboard.writeText(copyMe);
+      setCopySuccess("block");
+      setTimeout(() => {
+        setCopySuccess("none");
+        console.log("devada");
+      }, 2000);
+    } catch (err) {
+      setCopySuccess("none");
+    }
+  };
   let val = "start";
   return (
-    <div style={{ textAlign :'-webkit-center'}} >
+    <div style={{ textAlign: "-webkit-center" }}>
       {/* <Link></Link> */}
-      <div style={{display:"flex",justifyContent:"space-between",maxWidth:"728px"}}>
-         <button className="logoutBtn"  onClick={logout} >
-        <Link to="/" style={{textDecoration:'none'  ,color:"beige"}}>Log out</Link>
-      </button>
-      <button className="logoutBtn">
-        <Link to="/rooms" style={{textDecoration:'none', color:"beige"}}>All Rooms</Link>
-      </button>
-      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          maxWidth: "728px",
+        }}
+      >
+        <button className="logoutBtn" onClick={logout}>
+          <Link to="/" style={{ textDecoration: "none", color: "beige" }}>
+            Log out
+          </Link>
+        </button>
 
-      <div style={{ marginBottom: "10%" ,
-                marginTop:"3%", maxWidth: "728px"}}>
+        <button
+          className="logoutBtn"
+          onClick={() => {
+            copyToClipBoard(newId);
+          }}
+        >
+          {newId}
+        </button>
+
+        <button className="logoutBtn">
+          <Link to="/rooms" style={{ textDecoration: "none", color: "beige" }}>
+            All Rooms
+          </Link>
+        </button>
+      </div>
+      <div
+        style={{
+          // textAlign: "center",
+          // alignContent: "right",
+          display: "flex",
+          justifyContent: "flex-end",
+          margin: "1%",
+        }}
+      >
+        <div
+          class="alert alert-warning"
+          role="alert"
+          style={{
+            color: "beige",
+            backgroundColor: "grey",
+            borderColor: "#ffecb5",
+            width: "100px",
+            display: `${CopySuccess}`,
+          }}
+        >
+          {" "}
+          Copied ✅{" "}
+        </div>
+      </div>
+      <div style={{ marginBottom: "10%", marginTop: "3%", maxWidth: "728px" }}>
         {messageList.map((ele) => {
           return (
             // <div>
@@ -142,8 +197,8 @@ for (let ip=0;ip<id.length;ip++)
                 color: "white",
                 padding: "8px",
                 borderRadius: "8px",
-                margin: "3px", 
-                maxWidth: "728px" ,
+                margin: "3px",
+                maxWidth: "728px",
                 justifyContent: `${
                   ele.userId === auth.currentUser.uid ? "end" : "start"
                 }`,
@@ -196,18 +251,18 @@ for (let ip=0;ip<id.length;ip++)
         })}
       </div>
       <div>
-      <form className="footer" onSubmit={createmessage}>
-        <input
-          className="inputer"
-          placeholder="Your Message ..."
-          onChange={handleinput}
-          value={inputer}
-          // style={{marginLeft:"50px" ,  borderColor:" #282c34"}}
-        />
-        <button style={{ alignContent: "center", justifyContent: "center" }}>
-          🕊️
-        </button>
-      </form>
+        <form className="footer" onSubmit={createmessage}>
+          <input
+            className="inputer"
+            placeholder="Your Message ..."
+            onChange={handleinput}
+            value={inputer}
+            // style={{marginLeft:"50px" ,  borderColor:" #282c34"}}
+          />
+          <button style={{ alignContent: "center", justifyContent: "center" }}>
+            🕊️
+          </button>
+        </form>
       </div>
       <div className="dummy" id="dummy"></div>
     </div>

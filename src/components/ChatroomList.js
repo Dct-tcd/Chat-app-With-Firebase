@@ -8,16 +8,19 @@ function ChatroomList() {
     { id: "general", title: "💬 General 💬" },
     { id: "news ", title: "🗞 News 🗞   " },
     { id: "music", title: "🎹 Music 🎹" },
-    { id: "Cricket", title: " 🏏 Cricket 🏏"},
+    { id: "Cricket", title: " 🏏 Cricket 🏏" },
+    { id: "CustomRoom", title: " Create a custom Room " },
   ];
   return (
-    <div style={{
+    <div
+      style={{
         display: "flex",
-          justifyContent:"center",
-          flexWrap: "wrap",
-          padding: "200px",
-          color: "lavender",
-        }}>
+        justifyContent: "center",
+        flexWrap: "wrap",
+        padding: "200px",
+        color: "lavender",
+      }}
+    >
       {List.map((e) => {
         return (
           <>
@@ -26,9 +29,20 @@ function ChatroomList() {
                 color: "lavender",
               }}
             >
-              <div className="op" style={{ width:"170px", border: "solid", padding: "25px", margin: "5px" , }}>
+              <div
+                className="op"
+                style={{
+                  width: "170px",
+                  border: "solid",
+                  padding: "25px",
+                  margin: "5px",
+                }}
+              >
                 {/* <h5 className="card-title">{e.title}</h5> */}
-                <Link style={{ color: "cyan" }} to={`/room/${e.id}}`}>
+                <Link
+                  style={{ color: "cyan", textDecoration: "none" }}
+                  to={`/room/${e.id}}`}
+                >
                   {e.title}
                 </Link>
               </div>
