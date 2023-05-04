@@ -1,12 +1,15 @@
 body {
   background-color: #282c34;
-}
+  /* justify-items: center; */
+  text-align: center;
+  /* overflow-y: scroll; */
+ }
 
 .App {
   text-align: center;
   max-width: 728px;
   margin: 0 auto;
-}
+ }
 
 .App header {
   background-color: #181717;
@@ -40,6 +43,7 @@ main {
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
+  max-width: 728px;
 }
 
 main::-webkit-scrollbar {
@@ -53,20 +57,31 @@ main::-webkit-scrollbar-track {
 main::-webkit-scrollbar-thumb {
   background: hwb(204 29% 22%);
 }
-
+.op:hover{
+  /* a:hover { */
+    background-color: grey;
+  /* } */
+}
 form {
   height: 10vh;
   position: fixed;
   bottom: 0;
-  background-color: rgb(24, 23, 23);
-  width: 100%;
-  max-width: 728px;
+  /* background-color: rgb(24, 23, 23); */
+  width: 75%;
+  max-width: 888px;
   display: flex;
   font-size: 1.5rem;
+  margin-left: 20%;
+  /* margin-right: 20%; */
+  text-align: -webkit-center;
 }
 
 form button {
-  width: 20%;
+  width: 15%;
+  height: 10vh;
+  margin-top: auto;
+  /* text-align: -webkit-center; */
+  /* margin-right: 10%; */
   background-color: rgb(56, 56, 143);
 }
 
@@ -163,6 +178,13 @@ img {
   flex-direction: column;
   /* flex-wrap: wrap; */
 } 
+.inputer
+{
+  width: inherit;
+}
+.dummy {
+  scroll-behavior: smooth;
+}
 .wrapper{
   width: 335px;
   /* display: flex;

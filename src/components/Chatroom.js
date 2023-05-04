@@ -15,7 +15,19 @@ import {
 import { signOut } from "firebase/auth";
 import style from "../App.css";
 import { useSelector } from "react-redux";
+import {Link, useParams} from "react-router-dom"
 export default function Chatroom() {
+
+  // useParams
+const   params= useParams();
+const   id = params.id;
+let newId="";
+for (let ip=0;ip<id.length;ip++)
+{
+  // console.log(id[ip],"kkkkk");
+ if ((id[ip]>='a' && id[ip]<='z')||(id[ip]>='A' && id[ip]<='Z' ))  newId += id[ip];
+}
+
   const [message, setmessage] = useState("");
   const [messageList, setmessageList] = useState([]);
 
@@ -37,6 +49,7 @@ export default function Chatroom() {
         url: photourl,
         name: username,
         userId: auth?.currentUser?.uid,
+        type:newId,
       });
       getMessageList();
       // getMovieList();
@@ -64,7 +77,11 @@ export default function Chatroom() {
       //   console.log(chatQuery);
       //   filteredData.sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis()) ;
       console.log(filteredData);
-      setmessageList(filteredData.reverse());
+      
+      const newList = filteredData.filter( (e)=>{return e.type == newId});
+      console.log(newList, ";;;;");
+      setmessageList(newList.reverse());
+
     } catch (err) {
       console.error(err);
     }
@@ -103,10 +120,17 @@ export default function Chatroom() {
 
   let val = "start";
   return (
-    <div>
-      <button className="logoutBtn" onClick={logout}>
-        Log out
+    <div style={{ textAlign :'-webkit-center'}} >
+      {/* <Link></Link> */}
+      <div style={{display:"flex",justifyContent:"space-between",maxWidth:"728px"}}>
+         <button className="logoutBtn"  onClick={logout} >
+        <Link to="/" style={{textDecoration:'none'  ,color:"beige"}}>Log out</Link>
       </button>
+      <button className="logoutBtn">
+        <Link to="/rooms" style={{textDecoration:'none', color:"beige"}}>All Rooms</Link>
+      </button>
+      </div>
+
       <div style={{ marginBottom: "10%" }}>
         {messageList.map((ele) => {
           return (
@@ -131,18 +155,22 @@ export default function Chatroom() {
             >
               {" "}
               <button
-                  style={{
-                       padding:"0%",
-                    fontSize:"1rem"
-                  }}
-                  type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top"  title={`${ele.name}`}
-                >
-              <img
-                src={
-                  ele.url ||
-                  "https://api.adorable.io/avatars/23/abott@adorable.png"
-                }
-              />
+                style={{
+                  padding: "0%",
+                  fontSize: "1rem",
+                }}
+                type="button"
+                className="btn btn-secondary"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title={`${ele.name}`}
+              >
+                <img
+                  src={
+                    ele.url ||
+                    "https://api.adorable.io/avatars/23/abott@adorable.png"
+                  }
+                />
               </button>
               <div
                 style={{
@@ -158,26 +186,27 @@ export default function Chatroom() {
                   }`,
                 }}
               >
-                
-                  {ele.desc}
+                {ele.desc}
                 {/* </button> */}
               </div>
             </div>
           );
         })}
       </div>
-
+      <div>
       <form className="footer" onSubmit={createmessage}>
         <input
+          className="inputer"
           placeholder="Your Message ..."
           onChange={handleinput}
           value={inputer}
+          // style={{marginLeft:"50px" ,  borderColor:" #282c34"}}
         />
         <button style={{ alignContent: "center", justifyContent: "center" }}>
           🕊️
         </button>
       </form>
-
+      </div>
       <div className="dummy" id="dummy"></div>
     </div>
   );
