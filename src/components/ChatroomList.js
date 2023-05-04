@@ -17,7 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 function ChatroomList() {
-let navigate = useNavigate();
+  let navigate = useNavigate();
 
   const [checkroomId, setcheckroomId] = useState("none");
 
@@ -61,8 +61,14 @@ let navigate = useNavigate();
     }
   };
   const HandleInput = (e) => {
-    // checkroomId
-    if (title.length == 0) {
+    let ans = 0;
+
+    roomList.forEach((val) => {
+      rand == val.ider ? ans++ : (ans = ans);
+      //  console.log(val.ider);
+    });
+
+    if (title.length == 0 || ans > 0) {
       setcheckroomId("block");
     } else {
       setcheckroomId("none");
@@ -72,11 +78,9 @@ let navigate = useNavigate();
   };
   // let Deny="";
 
-
-
   const HandleInputFoot = (e) => {
     let ans = 0;
-   console.log(titlefoot);
+    console.log(titlefoot);
     roomList.forEach((val) => {
       titlefoot == val.ider ? ans++ : (ans = ans);
       console.log(val.ider);
@@ -88,7 +92,7 @@ let navigate = useNavigate();
       setcheckroomValid("block");
       // Deny="room";
     } else {
-      console.log('cbhhe');
+      console.log("cbhhe");
       setcheckroomValid("none");
       return navigate(`/room/${titlefoot}`);
       // Deny="";
@@ -103,51 +107,58 @@ let navigate = useNavigate();
   return (
     <>
       <div
-        style={{ textAlignLast: "start", marginLeft: "20%", marginTop: "5%" }}
+        style={{  marginTop: "5%", display:"flex",flexDirection:"column",  justifyContent:"center" }}
       >
         <div>
           <input
+            placeholder="Give us a Name"
             onChange={(e) => {
               settitle(e.target.value);
             }}
             style={{ marginLeft: "2%" }}
           />
-          <label>
+          {/* <label> */}
             <button
-              style={{ backgroundColor: "primary" }}
+              // type="button"
+              // className="btn btn-primary"
+              style={{ backgroundColor: "blue"   , borderRadius:"10%" ,padding:"1% 1%",}}
               onClick={HandleInput}
             >
               Create a custom Room
             </button>
-          </label>
-          <div style={{ color: "yellow", display: `${checkroomId}` }}>
+          {/* </label> */}
+          <div style={{ color: "yellow",  display: `${checkroomId}` }}>
             {" "}
-            Give a Valid Title{" "}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Give a Valid Title{" "}
           </div>
         </div>
 
-        <div>
+        <div className="align-items-center">
           <input
+            placeholder="Give us an Id"
             onChange={(e) => {
               settitlefoot(e.target.value);
             }}
             style={{ marginLeft: "2%" }}
           />
 
-            <label>
-              <button
-                style={{ backgroundColor: "primary" }}
-                onClick={HandleInputFoot}
-              >
-                {console.log(checkroomValid,"checkroomValid")}
-          {/* <Link to={  checkroomValid=="none" ? `/room/${titlefoot}` : "/rooms"}> */}
-                Join custom Room
-          {/* </Link> */}
-              </button>
-            </label>
+          {/* <label> */}
+            <button
+              // type="button"
+              // className=""
+              // style={{ backgroundColor: "primary" }}
+              onClick={HandleInputFoot}
+              style={{backgroundColor:"blue" , borderRadius:"10%" , padding:"1% 1%",}}
+            >
+              {console.log(checkroomValid, "checkroomValid")}
+              {/* <Link to={  checkroomValid=="none" ? `/room/${titlefoot}` : "/rooms"}> */}
+              Join a Room
+              {/* </Link> */}
+            </button>
+          {/* </label> */}
           <div style={{ color: "yellow", display: `${checkroomValid}` }}>
             {" "}
-            Not a Valid Room Id{" "}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Not a Valid Room Id{" "}
           </div>
         </div>
       </div>
@@ -158,6 +169,7 @@ let navigate = useNavigate();
           flexWrap: "wrap",
           padding: "100px",
           color: "lavender",
+          marginTop:"1%",
         }}
       >
         {/* <form action={HandleInput}> */}
@@ -185,7 +197,6 @@ let navigate = useNavigate();
                     to={`/room/${e.ider}}`}
                   >
                     {e.title}
-                    
                   </Link>
                 </div>
               </div>

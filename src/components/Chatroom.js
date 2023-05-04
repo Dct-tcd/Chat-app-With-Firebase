@@ -135,13 +135,14 @@ export default function Chatroom() {
   };
   let val = "start";
   return (
-    <div style={{ textAlign: "-webkit-center" }}>
+    <div style={{ textAlign: "-webkit-center"  }}>
       {/* <Link></Link> */}
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           maxWidth: "728px",
+           margin:"1%"
         }}
       >
         <button className="logoutBtn" onClick={logout}>
@@ -156,7 +157,7 @@ export default function Chatroom() {
             copyToClipBoard(newId);
           }}
         >
-          {newId}
+          Id :: {newId}
         </button>
 
         <button className="logoutBtn">
@@ -217,7 +218,7 @@ export default function Chatroom() {
                   fontSize: "1rem",
                 }}
                 type="button"
-                className="btn btn-secondary"
+                // className="btn btn-secondary"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
                 title={`${ele.name}`}
