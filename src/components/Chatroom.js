@@ -131,7 +131,8 @@ for (let ip=0;ip<id.length;ip++)
       </button>
       </div>
 
-      <div style={{ marginBottom: "10%" , maxWidth: "728px"}}>
+      <div style={{ marginBottom: "10%" ,
+                marginTop:"3%", maxWidth: "728px"}}>
         {messageList.map((ele) => {
           return (
             // <div>
