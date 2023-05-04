@@ -16,14 +16,16 @@ import { signOut } from "firebase/auth";
 import style from "../App.css";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+
+
+
 export default function Chatroom() {
-  // useParams
   const params = useParams();
   const id = params.id;
   let newId = "";
   for (let ip = 0; ip < id.length; ip++) {
     // console.log(id[ip],"kkkkk");
-    if ((id[ip] >= "a" && id[ip] <= "z") || (id[ip] >= "A" && id[ip] <= "Z"))
+    if ((id[ip] >= "1" && id[ip] <= "9") || (id[ip] >= "A" && id[ip] <= "Z"))
       newId += id[ip];
   }
 
@@ -165,15 +167,13 @@ export default function Chatroom() {
       </div>
       <div
         style={{
-          // textAlign: "center",
-          // alignContent: "right",
           display: "flex",
           justifyContent: "flex-end",
           margin: "1%",
         }}
       >
         <div
-          class="alert alert-warning"
+          className="alert alert-warning"
           role="alert"
           style={{
             color: "beige",
