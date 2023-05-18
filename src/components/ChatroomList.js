@@ -31,10 +31,12 @@ function ChatroomList() {
   const rand = Math.random().toString().substr(2, 8);
 
   const createmessage = async (e) => {
+    // if 
+    // e.target.value="";
     e.preventDefault();
     // setinputer("");
     const ans = Number(new Date());
-    
+    // e.target.value="";
     try {
       await addDoc(roomsCollectionRef, {
         ider: rand,
@@ -182,6 +184,7 @@ function ChatroomList() {
           flexWrap: "wrap",
           padding: "100px",
           color: "lavender",
+          margin:"5%",
           marginTop: "1%",
         }}
       >

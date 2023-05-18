@@ -117,7 +117,7 @@ button {
     justify-content: space-around;
 }
 .footer{
-  height: 10vh;
+      height: 10vh;
     position: fixed;
     bottom: 0;
     width: 80%;

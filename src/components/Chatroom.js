@@ -17,60 +17,54 @@ import style from "../App.css";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
-
-
 export default function Chatroom() {
+  //   const handleFireBaseUpload = e => {
+  //     e.preventDefault()
+  //   console.log('start of upload')
+  //   // async magic goes here...
+  //   if(imageAsFile === '') {
+  //     console.error(`not an image, the image file is a ${typeof(imageAsFile)}`)
+  //   }
+  //   const uploadTask = storage.ref(`/images/${imageAsFile.name}`).put(imageAsFile)
+  //   //initiates the firebase side uploading
+  //   uploadTask.on('state_changed',
+  //   (snapShot) => {
+  //     //takes a snap shot of the process as it is happening
+  //     console.log(snapShot)
+  //   }, (err) => {
+  //     //catches the errors
+  //     console.log(err)
+  //   }, () => {
+  //     // gets the functions from storage refences the image storage in firebase by the children
+  //     // gets the download url then sets the image from firebase as the value for the imgUrl key:
+  //     storage.ref('images').child(imageAsFile.name).getDownloadURL()
+  //      .then(fireBaseUrl => {
+  //        setImageAsUrl(prevObject => ({...prevObject, imgUrl: fireBaseUrl}))
+  //      })
+  //   })
+  //   }
 
-//   const handleFireBaseUpload = e => {
-//     e.preventDefault()
-//   console.log('start of upload')
-//   // async magic goes here...
-//   if(imageAsFile === '') {
-//     console.error(`not an image, the image file is a ${typeof(imageAsFile)}`)
-//   }
-//   const uploadTask = storage.ref(`/images/${imageAsFile.name}`).put(imageAsFile)
-//   //initiates the firebase side uploading 
-//   uploadTask.on('state_changed', 
-//   (snapShot) => {
-//     //takes a snap shot of the process as it is happening
-//     console.log(snapShot)
-//   }, (err) => {
-//     //catches the errors
-//     console.log(err)
-//   }, () => {
-//     // gets the functions from storage refences the image storage in firebase by the children
-//     // gets the download url then sets the image from firebase as the value for the imgUrl key:
-//     storage.ref('images').child(imageAsFile.name).getDownloadURL()
-//      .then(fireBaseUrl => {
-//        setImageAsUrl(prevObject => ({...prevObject, imgUrl: fireBaseUrl}))
-//      })
-//   })
-//   }
+  //   const allInputs = {imgUrl: ''}
+  //   const [imageAsFile, setImageAsFile] = useState('')
+  //   const [imageAsUrl, setImageAsUrl] = useState(allInputs)
 
-//   const allInputs = {imgUrl: ''}
-//   const [imageAsFile, setImageAsFile] = useState('')
-//   const [imageAsUrl, setImageAsUrl] = useState(allInputs)
-  
-//   const handleImageAsFile = (e) => {
-//     const image = e.target.files[0]
-//     setImageAsFile(imageFile => (image))
-// }
-
-
+  //   const handleImageAsFile = (e) => {
+  //     const image = e.target.files[0]
+  //     setImageAsFile(imageFile => (image))
+  // }
 
   const params = useParams();
   const id = params.id;
   let newId = "";
   for (let ip = 0; ip < id.length; ip++) {
     // console.log(id[ip],"kkkkk");
-    if (id[ip] >= "0" && id[ip] <= "9")
-    newId += id[ip];
+    if (id[ip] >= "0" && id[ip] <= "9") newId += id[ip];
   }
-  
+
   const [messageList, setmessageList] = useState([]);
   const [CopySuccess, setCopySuccess] = useState("none");
   const [NewmessageList, setNewmessageList] = useState([]);
-  
+  const [inputer, setinputer] = useState("");
   const [photourl, setphotourl] = useState("");
   const messagesCollectionRef = collection(db, "messages");
   // const q = query(collection(db, "messages").orderBy("createdAt"));
@@ -80,28 +74,29 @@ export default function Chatroom() {
 
   const createmessage = async (e) => {
     e.preventDefault();
-    if (Input!="") 
-    {
     setinputer("");
-    const ans = Number(new Date());
-    
-    const Dater = new Date().toLocaleString();
-    try {
-      await addDoc(messagesCollectionRef, {
-        createdAt: ans,
-        desc: Input,
-        url: photourl,
-        name: username,
-        userId: auth?.currentUser?.uid,
-        type: newId,
-        Date:Dater,
-      });
-      getMessageList();
-      // getMovieList();
-    } catch (err) {
-      console.error(err);
+    // e.target.value="";
+    if (inputer != "") {
+      setinputer("");
+      const ans = Number(new Date());
+
+      const Dater = new Date().toLocaleString();
+      try {
+        await addDoc(messagesCollectionRef, {
+          createdAt: ans,
+          desc: Input,
+          url: photourl,
+          name: username,
+          userId: auth?.currentUser?.uid,
+          type: newId,
+          Date: Dater,
+        });
+        getMessageList();
+        // getMovieList();
+      } catch (err) {
+        console.error(err);
+      }
     }
-  }
   };
 
   const getMessageList = async () => {
@@ -111,7 +106,7 @@ export default function Chatroom() {
       // const chatQuery = conversationReference.orderByChild("createdAt"). limitToLast(20);
       const q = query(
         messagesCollectionRef,
-        orderBy("createdAt","desc"),
+        orderBy("createdAt", "desc")
         // limit(30)
       );
       // console.log(username, "1");
@@ -128,7 +123,7 @@ export default function Chatroom() {
       const newList = filteredData.filter((e) => {
         return e.type == newId;
       });
-     
+
       setmessageList(newList.reverse());
     } catch (err) {
       console.error(err);
@@ -147,9 +142,12 @@ export default function Chatroom() {
     const user = auth.currentUser;
 
     if (user != null) {
-      if (user.photoURL!=null) setphotourl(user.photoURL);
-      else setphotourl("https://th.bing.com/th/id/OIP.zBut8QVH36Vn_Mn84OznCAHaHa?pid=ImgDet&rs=1");
-     }
+      if (user.photoURL != null) setphotourl(user.photoURL);
+      else
+        setphotourl(
+          "https://th.bing.com/th/id/OIP.zBut8QVH36Vn_Mn84OznCAHaHa?pid=ImgDet&rs=1"
+        );
+    }
   }, []);
   const [Input, setInput] = useState("");
 
@@ -160,7 +158,6 @@ export default function Chatroom() {
       console.error(err);
     }
   };
-  const [inputer, setinputer] = useState("");
   const handleinput = (e) => {
     setInput(e.target.value);
     setinputer(e.target.value);
@@ -173,7 +170,7 @@ export default function Chatroom() {
       // const chatQuery = conversationReference.orderByChild("createdAt"). limitToLast(20);
       const q = query(
         messagesCollectionRef,
-        orderBy("createdAt","desc"),
+        orderBy("createdAt", "desc")
         // limit(30)
       );
       // console.log(username, "1");
@@ -190,7 +187,7 @@ export default function Chatroom() {
       const newList = filteredData.filter((e) => {
         return e.type == newId;
       });
-     
+
       setNewmessageList(newList.reverse());
     } catch (err) {
       console.error(err);
@@ -203,19 +200,18 @@ export default function Chatroom() {
     // window.scrollTo({ left: 0, bottom: 0, behavior: "smooth" });
     // document.getElementById("dummy").scrollIntoView(false,{ behaviour: "smooth" });
   };
-setTimeout(() => {
-  getNewMessageList();
-  if (messageList.length != NewmessageList.length) {setmessageList(NewmessageList);
-  
-    window.scrollTo({
-      left: 0,
-      top: document.body.scrollHeight,
-      behavior: "smooth",
-    });
-  }
-}, 1000);
+  setTimeout(() => {
+    getNewMessageList();
+    if (messageList.length != NewmessageList.length) {
+      setmessageList(NewmessageList);
 
-
+      window.scrollTo({
+        left: 0,
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, 1000);
 
   const copyToClipBoard = async (copyMe) => {
     try {
@@ -231,16 +227,16 @@ setTimeout(() => {
   };
   let val = "start";
   return (
-    <div style={{ textAlign: "-webkit-center"  }}>
+    <div style={{ textAlign: "-webkit-center" }}>
       {/* <Link></Link> */}
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           maxWidth: "728px",
-           marginLeft:"5%",
-           marginRight:"5%",
-           marginTop:"1%"
+          marginLeft: "5%",
+          marginRight: "5%",
+          marginTop: "1%",
         }}
       >
         <button className="logoutBtn" onClick={logout}>
@@ -279,7 +275,7 @@ setTimeout(() => {
             backgroundColor: "grey",
             borderColor: "#ffecb5",
             width: "150px",
-            padding:"0%",
+            padding: "0%",
             display: `${CopySuccess}`,
           }}
         >
@@ -296,8 +292,9 @@ setTimeout(() => {
                 display: "flex",
                 color: "white",
                 padding: "8px",
-                borderRadius: "8px",
-                margin:"5%",
+                borderRadius: "28px",
+                alignItems: "baseline",
+                margin: "5%",
                 maxWidth: "728px",
                 justifyContent: `${
                   ele.userId === auth.currentUser.uid ? "end" : "start"
@@ -316,7 +313,6 @@ setTimeout(() => {
                   padding: "0%",
                   fontSize: "1rem",
                 }}
-                type="button"
                 // className="btn btn-secondary"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
@@ -327,59 +323,68 @@ setTimeout(() => {
                     ele.url ||
                     "https://th.bing.com/th/id/OIP.zBut8QVH36Vn_Mn84OznCAHaHa?pid=ImgDet&rs=1"
                   }
-                  
                 />
               </button>
-              <div style={{
-                display:"flex",
-                flexDirection:"column",
-                alignItems:"start",justifyContent:"flex-start"}}>
               <div
                 style={{
                   display: "flex",
-                  color: "white",
-                  padding: "8px",
-                  borderRadius: "8px",
-                  marginLeft: "3px",
-                  marginRight: "3px",
-                  marginTop: "3px",
-                  backgroundColor: `${
-                    ele.userId !== auth.currentUser.uid
-                      ? "green"
-                      : "hwb(204 29% 22%)"
+                  flexDirection: "column",
+  
+                  alignItems: `${
+                    ele.userId == auth.currentUser.uid ? "start" : "end"
                   }`,
                 }}
               >
-                {ele.desc}
-                {/* {ele.Date} */}
-                {/* </button> */}
-              </div>
-              <div  className="timer"
-                style={{
-                  // display: "flex",
-                  color: "white",
-                  padding: "3px",
-                  borderRadius: "8px",
-                  margin: "3px",
-                  width:"fit-content",
-                  backgroundColor: `${
-                    ele.userId !== auth.currentUser.uid
-                      ? "green"
-                      : "hwb(204 29% 22%)"
-                  }`,
-                }}
-              >
-                {ele.Date}
-                {/* {ele.Date} */}
-                {/* </button> */}
-              </div>
+                <div
+                  style={{
+                    display: "flex",
+                    color: "white",
+                    padding: "8px",
+                    borderRadius: "26px",
+                    marginLeft: "3px",
+                    marginRight: "3px",
+                    marginTop: "3px",
+                    maxWidth:"300px",
+                    textAlign:"-webkit-left",
+                    wordWrap:"break-word",
+                    backgroundColor: `${
+                      ele.userId !== auth.currentUser.uid
+                        ? "green"
+                        : "hwb(204 29% 22%)"
+                    }`,
+                  }}
+                >
+                  {ele.desc}
+                  {/* {ele.Date} */}
+                  {/* </button> */}
+                </div>
+                <div
+                  className="timer"
+                  style={{
+                    // display: "flex",
+                    color: "white",
+                    padding: "3px",
+                    borderRadius: "25px",
+                    margin: "3px",
+                    width: "fit-content",
+                    backgroundColor: `${
+                      ele.userId !== auth.currentUser.uid
+                        ? "green"
+                        : "hwb(204 29% 22%)"
+                    }`,
+                  }}
+                >
+                  {ele.Date}
+                  {/* {ele.Date} */}
+                  {/* </button> */}
+                </div>
               </div>
             </div>
           );
         })}
       </div>
       <div className="footerDiv">
-{/* <div> */}
+        {/* <div> */}
         <form className="footer" onSubmit={createmessage}>
           <input
             className="inputer"
@@ -387,13 +392,19 @@ setTimeout(() => {
             onChange={handleinput}
             value={inputer}
           />
-        
-          <button style={{ alignContent: "center", alignItems:"center", justifyContent: "center", }}>
+
+          <button
+            style={{
+              alignContent: "center",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             🕊️
           </button>
         </form>
         {/* </div>    */}
-      {/* <form onSubmit={handleFireBaseUpload}>
+        {/* <form onSubmit={handleFireBaseUpload}>
         <input 
           type="file"
           onChange={handleImageAsFile}
