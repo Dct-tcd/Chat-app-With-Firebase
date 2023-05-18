@@ -120,7 +120,7 @@ export default function Chatroom() {
         ...doc.data(),
         id: doc.id,
       }));
-      console.log(filteredData);
+      // console.log(filteredData);
 
       //   console.log(chatQuery);
       //   filteredData.sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis()) ;
@@ -223,8 +223,8 @@ setTimeout(() => {
       setCopySuccess("block");
       setTimeout(() => {
         setCopySuccess("none");
-        console.log("devada");
-      }, 2000);
+        // console.log("devada");
+      }, 1200);
     } catch (err) {
       setCopySuccess("none");
     }
@@ -278,7 +278,8 @@ setTimeout(() => {
             color: "beige",
             backgroundColor: "grey",
             borderColor: "#ffecb5",
-            width: "100px",
+            width: "150px",
+            padding:"0%",
             display: `${CopySuccess}`,
           }}
         >
@@ -296,7 +297,7 @@ setTimeout(() => {
                 color: "white",
                 padding: "8px",
                 borderRadius: "8px",
-                margin: "3px",
+                margin:"5%",
                 maxWidth: "728px",
                 justifyContent: `${
                   ele.userId === auth.currentUser.uid ? "end" : "start"

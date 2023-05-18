@@ -59,7 +59,7 @@ function ChatroomList() {
         ...doc.data(),
         id: doc.id,
       }));
-      console.log(filteredData,);
+      // console.log(filteredData,);
       setroomList(filteredData);
     } catch (err) {
       console.error(err);
@@ -83,19 +83,19 @@ function ChatroomList() {
 
   const HandleInputFoot = (e) => {
     let ans = 0;
-    console.log(titlefoot);
+    // console.log(titlefoot);
     roomList.forEach((val) => {
       titlefoot == val.ider ? ans++ : (ans = ans);
-      console.log(val.ider);
+      // console.log(val.ider);
     });
 
-    console.log(ans, "ans");
+    // console.log(ans, "ans");
     if (ans == 0) {
-      console.log("hhh");
+      // console.log("hhh");
       setcheckroomValid("block");
       // Deny="room";
     } else {
-      console.log("cbhhe");
+      // console.log("cbhhe");
       setcheckroomValid("none");
       return navigate(`/room/${titlefoot}`);
       // Deny="";
@@ -130,7 +130,7 @@ function ChatroomList() {
               backgroundColor: "blue",
               borderRadius: "10%",
               padding: "1% 1%",
-              marginBottom: "5%"
+              marginBottom: "2%"
             }}
             onClick={HandleInput}
           >
@@ -163,7 +163,7 @@ function ChatroomList() {
               padding: "1% 1%",
             }}
           >
-            {console.log(checkroomValid, "checkroomValid")}
+            {/* {console.log(checkroomValid, "checkroomValid")} */}
             {/* <Link to={  checkroomValid=="none" ? `/room/${titlefoot}` : "/rooms"}> */}
             Join a Room
             {/* </Link> */}
