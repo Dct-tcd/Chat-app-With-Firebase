@@ -33,14 +33,19 @@ function ChatroomList() {
   const createmessage = async (e) => {
     e.preventDefault();
     // setinputer("");
-    const ans = new Date().toLocaleString();
+    const ans = Number(new Date());
+    
     try {
       await addDoc(roomsCollectionRef, {
         ider: rand,
         title: title,
         createdAt: ans,
       });
+    
       getroomList();
+      return navigate(`/room/${rand}`);
+      // location.href = ;
+
     } catch (err) {
       console.error(err);
     }
@@ -48,13 +53,13 @@ function ChatroomList() {
 
   const getroomList = async () => {
     try {
-      const q = query(roomsCollectionRef, orderBy("createdAt"), limit(6));
+      const q = query(roomsCollectionRef, orderBy("createdAt","asc"), limit(6));
       const data = await getDocs(q);
       const filteredData = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
-      // console.log(filteredData,'::');
+      console.log(filteredData,);
       setroomList(filteredData);
     } catch (err) {
       console.error(err);
@@ -62,10 +67,8 @@ function ChatroomList() {
   };
   const HandleInput = (e) => {
     let ans = 0;
-
     roomList.forEach((val) => {
       rand == val.ider ? ans++ : (ans = ans);
-      //  console.log(val.ider);
     });
 
     if (title.length == 0 || ans > 0) {
@@ -107,7 +110,12 @@ function ChatroomList() {
   return (
     <>
       <div
-        style={{  marginTop: "5%", display:"flex",flexDirection:"column",  justifyContent:"center" }}
+        style={{
+          marginTop: "5%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
       >
         <div>
           <input
@@ -117,17 +125,18 @@ function ChatroomList() {
             }}
             style={{ marginLeft: "2%" }}
           />
-          {/* <label> */}
-            <button 
-              // type="button"
-              // className="btn btn-primary"
-              style={{ backgroundColor: "blue"   , borderRadius:"10%" ,padding:"1% 1%",}}
-              onClick={HandleInput}
-            >
-              Create a custom Room
-            </button>
-          {/* </label> */}
-          <div style={{ color: "yellow",  display: `${checkroomId}` }}>
+          <button
+            style={{
+              backgroundColor: "blue",
+              borderRadius: "10%",
+              padding: "1% 1%",
+              marginBottom: "5%"
+            }}
+            onClick={HandleInput}
+          >
+             Create a Room 
+          </button>
+          <div style={{ color: "yellow", display: `${checkroomId}` }}>
             {" "}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Give a Valid Title{" "}
           </div>
@@ -143,18 +152,22 @@ function ChatroomList() {
           />
 
           {/* <label> */}
-            <button
-              // type="button"
-              // className=""
-              // style={{ backgroundColor: "primary" }}
-              onClick={HandleInputFoot}
-              style={{backgroundColor:"blue" , borderRadius:"10%" , padding:"1% 1%",}}
-            >
-              {console.log(checkroomValid, "checkroomValid")}
-              {/* <Link to={  checkroomValid=="none" ? `/room/${titlefoot}` : "/rooms"}> */}
-              Join a Room
-              {/* </Link> */}
-            </button>
+          <button
+            // type="button"
+            // className=""
+            // style={{ backgroundColor: "primary" }}
+            onClick={HandleInputFoot}
+            style={{
+              backgroundColor: "blue",
+              borderRadius: "10%",
+              padding: "1% 1%",
+            }}
+          >
+            {console.log(checkroomValid, "checkroomValid")}
+            {/* <Link to={  checkroomValid=="none" ? `/room/${titlefoot}` : "/rooms"}> */}
+            Join a Room
+            {/* </Link> */}
+          </button>
           {/* </label> */}
           <div style={{ color: "yellow", display: `${checkroomValid}` }}>
             {" "}
@@ -169,7 +182,7 @@ function ChatroomList() {
           flexWrap: "wrap",
           padding: "100px",
           color: "lavender",
-          marginTop:"1%",
+          marginTop: "1%",
         }}
       >
         {/* <form action={HandleInput}> */}
@@ -180,7 +193,7 @@ function ChatroomList() {
             <>
               <div
                 style={{
-                  color: "lavender",
+                  color: "lavender",margin:"1%"
                 }}
               >
                 <div
