@@ -100,6 +100,7 @@ input {
 
 button {
   background-color: #282c34; 
+  /* background-color: #2eb82e; */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -208,4 +209,7 @@ img {
   flex-direction: column; */
   /* justify-self: start; */
   /* flex-wrap: wrap-reverse; */
+}
+.timer{
+  font-size:x-small;
 }

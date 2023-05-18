@@ -238,7 +238,9 @@ setTimeout(() => {
           display: "flex",
           justifyContent: "space-between",
           maxWidth: "728px",
-           margin:"1%"
+           marginLeft:"5%",
+           marginRight:"5%",
+           marginTop:"1%"
         }}
       >
         <button className="logoutBtn" onClick={logout}>
@@ -327,13 +329,19 @@ setTimeout(() => {
                   
                 />
               </button>
+              <div style={{
+                display:"flex",
+                flexDirection:"column",
+                alignItems:"start",justifyContent:"flex-start"}}>
               <div
                 style={{
                   display: "flex",
                   color: "white",
                   padding: "8px",
                   borderRadius: "8px",
-                  margin: "3px",
+                  marginLeft: "3px",
+                  marginRight: "3px",
+                  marginTop: "3px",
                   backgroundColor: `${
                     ele.userId !== auth.currentUser.uid
                       ? "green"
@@ -342,7 +350,28 @@ setTimeout(() => {
                 }}
               >
                 {ele.desc}
+                {/* {ele.Date} */}
                 {/* </button> */}
+              </div>
+              <div  className="timer"
+                style={{
+                  // display: "flex",
+                  color: "white",
+                  padding: "3px",
+                  borderRadius: "8px",
+                  margin: "3px",
+                  width:"fit-content",
+                  backgroundColor: `${
+                    ele.userId !== auth.currentUser.uid
+                      ? "green"
+                      : "hwb(204 29% 22%)"
+                  }`,
+                }}
+              >
+                {ele.Date}
+                {/* {ele.Date} */}
+                {/* </button> */}
+              </div>
               </div>
             </div>
           );
@@ -356,10 +385,9 @@ setTimeout(() => {
             placeholder="Your Message ..."
             onChange={handleinput}
             value={inputer}
-            // style={{marginLeft:"50px" ,  borderColor:" #282c34"}}
           />
         
-          <button style={{ alignContent: "center", alignItems:"center", justifyContent: "center" }}>
+          <button style={{ alignContent: "center", alignItems:"center", justifyContent: "center", }}>
             🕊️
           </button>
         </form>
