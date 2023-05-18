@@ -184,8 +184,7 @@ function ChatroomList() {
           flexWrap: "wrap",
           padding: "100px",
           color: "lavender",
-          margin:"5%",
-          marginTop: "1%",
+          margin: "2% 15% 20% 20%",
         }}
       >
         {/* <form action={HandleInput}> */}

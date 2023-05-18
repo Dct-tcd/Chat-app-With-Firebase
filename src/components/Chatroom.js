@@ -61,6 +61,7 @@ export default function Chatroom() {
     if (id[ip] >= "0" && id[ip] <= "9") newId += id[ip];
   }
 
+  const [Input, setInput] = useState("");
   const [messageList, setmessageList] = useState([]);
   const [CopySuccess, setCopySuccess] = useState("none");
   const [NewmessageList, setNewmessageList] = useState([]);
@@ -139,6 +140,8 @@ export default function Chatroom() {
 
   useEffect(() => {
     getMessageList();
+    getNewMessageList();
+    
     const user = auth.currentUser;
 
     if (user != null) {
@@ -149,7 +152,6 @@ export default function Chatroom() {
         );
     }
   }, []);
-  const [Input, setInput] = useState("");
 
   const logout = async () => {
     try {
@@ -192,17 +194,14 @@ export default function Chatroom() {
     } catch (err) {
       console.error(err);
     }
-    // window.scrollTo({
-    //   left: 0,
-    //   top: document.body.scrollHeight,
-    //   behavior: "smooth",
-    // });
-    // window.scrollTo({ left: 0, bottom: 0, behavior: "smooth" });
-    // document.getElementById("dummy").scrollIntoView(false,{ behaviour: "smooth" });
-  };
+    };
+
+
   setTimeout(() => {
+    // e.preventDefault();
     getNewMessageList();
-    if (messageList.length != NewmessageList.length) {
+    if (messageList.length != NewmessageList.length) 
+    {
       setmessageList(NewmessageList);
 
       window.scrollTo({
@@ -226,6 +225,7 @@ export default function Chatroom() {
     }
   };
   let val = "start";
+
   return (
     <div style={{ textAlign: "-webkit-center" }}>
       {/* <Link></Link> */}

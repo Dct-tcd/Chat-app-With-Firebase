@@ -4,6 +4,7 @@ body {
   text-align: center;
   /* overflow-y: scroll; */
   zoom:0.9;
+  margin-right: 5%;
  }
 
 .App {
