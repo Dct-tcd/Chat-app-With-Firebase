@@ -28,37 +28,20 @@ function ChatroomList() {
   // const [inputer, setinputer] = useState([]);
   const [title, settitle] = useState("");
   const [titlefoot, settitlefoot] = useState("");
-  
-  const [Idstore, setIdstore] = useState([]);
-  
+  const rand = Math.random().toString().substr(2, 8);
+
   const createmessage = async (e) => {
-    // if 
-    // e.target.value="";
     e.preventDefault();
     // setinputer("");
     const ans = Number(new Date());
-   let op=0;
-   while(op==0)
-   {
-    // op=0;
-    let cc=0;
-    let rand = Math.random().toString().substr(2, 8);
-    for(let i=0;i<Idstore.length;i++)
-    {
-      if (Idstore[i]==rand) cc++;
-    }
-    if (cc==0) op=1;
-    else op=0;
-   } 
-    // while(rand)
-    // e.target.value="";
+
     try {
       await addDoc(roomsCollectionRef, {
         ider: rand,
         title: title,
         createdAt: ans,
       });
-    
+
       getroomList();
       return navigate(`/room/${rand}`);
       // location.href = ;
@@ -82,32 +65,6 @@ function ChatroomList() {
       console.error(err);
     }
   };
-  
-  const getIdList = async () => {
-    try {
-      const q = query(roomsCollectionRef, orderBy("createdAt","asc"));
-      const data = await getDocs(q);
-      const filteredData = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      let Idstorer=[];
-      // console.log(filteredData,);
-      filteredData.forEach(ele => {
-        Idstorer.push(ele.ider);
-      });
-      setIdstore(Idstorer);
-      // setroomList(filteredData);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    getIdList();
-  }, [])
-  
-
   const HandleInput = (e) => {
     let ans = 0;
     roomList.forEach((val) => {
@@ -225,7 +182,9 @@ function ChatroomList() {
           flexWrap: "wrap",
           padding: "100px",
           color: "lavender",
-          margin: "2% 15% 20% 20%",
+          marginTop: "1%",
+          marginLeft:"17%",
+          marginRight:"17%",
         }}
       >
         {/* <form action={HandleInput}> */}

@@ -4,7 +4,6 @@ body {
   text-align: center;
   /* overflow-y: scroll; */
   zoom:0.9;
-  margin-right: 5%;
  }
 
 .App {
@@ -114,11 +113,11 @@ button {
   /* width: 335%; */
 }
 .footerDiv{
-  display: flex;
+    display: flex;
     justify-content: space-around;
 }
 .footer{
-      height: 10vh;
+    height: 10vh;
     position: fixed;
     bottom: 0;
     width: 80%;
@@ -128,6 +127,17 @@ button {
     margin-left: 10%;
     margin-right: 6%;
     text-align: -webkit-center;
+}
+.footerr{
+  height: 10vh;
+  position: fixed;
+  bottom: 10%;
+  right: 14%;
+  cursor:pointer;
+  max-width: 730px;
+  opacity: 70%;
+  border-radius: 10%;
+  border: solid;
 }
 button:disabled {
   opacity: 0.5;
@@ -176,7 +186,7 @@ html {
   color: white;
   background: #0b93f6;
   align-self: flex-end;
-  
+
   flex-direction: row-reverse;
 
 }
