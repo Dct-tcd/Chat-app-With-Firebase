@@ -77,7 +77,7 @@ form {
 }
 
 form button {
-  width: 15%;
+  /* width: 15%; */
     height: 10vh;
     margin-top: auto;
     /* text-align: -webkit-center; */
@@ -223,4 +223,8 @@ img {
 }
 .timer{
   font-size:x-small;
+}
+.Scroller:hover
+{
+  background:grey;
 }

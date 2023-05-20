@@ -66,12 +66,12 @@ function ChatroomList() {
     }
   };
   const HandleInput = (e) => {
-    let ans = 0;
-    roomList.forEach((val) => {
-      rand == val.ider ? ans++ : (ans = ans);
-    });
+    // let ans = 0;
+    // roomList.forEach((val) => {
+    //   rand == val.ider ? ans++ : (ans = ans);
+    // });
 
-    if (title.length == 0 || ans > 0) {
+    if (title.length == 0) {
       setcheckroomId("block");
     } else {
       setcheckroomId("none");
