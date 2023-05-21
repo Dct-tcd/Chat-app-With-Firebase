@@ -11,12 +11,19 @@ import {
   orderBy,
   limit,
   uid,
+  // onValue,
+  // ref,
 } from "firebase/firestore";
+import {  where} from "firebase/firestore";
+
+import {  onSnapshot } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import style from "../App.css";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import downer from "./downer.png";
+import { getDatabase, ref, onValue, get} from "firebase/database";
+
 export default function Chatroom() {
   //   const handleFireBaseUpload = e => {
   //     e.preventDefault()
@@ -47,7 +54,7 @@ export default function Chatroom() {
   //   const allInputs = {imgUrl: ''}
   //   const [imageAsFile, setImageAsFile] = useState('')
   //   const [imageAsUrl, setImageAsUrl] = useState(allInputs)
-
+  
   //   const handleImageAsFile = (e) => {
   //     const image = e.target.files[0]
   //     setImageAsFile(imageFile => (image))
@@ -77,7 +84,7 @@ export default function Chatroom() {
     if (Input != "") {
       setinputer("");
       const ans = Number(new Date());
-
+      
       const Dater = new Date().toLocaleString();
       try {
         await addDoc(messagesCollectionRef, {
@@ -89,8 +96,11 @@ export default function Chatroom() {
           type: newId,
           Date: Dater,
         });
+        // getNewMessageList();
         getMessageList();
-        // getMovieList();
+        window.scrollTo({ left: 0, bottom: 0, behavior: "smooth" });
+        document.getElementById("dummy").scrollIntoView(false,{ behaviour: "smooth" });
+
       } catch (err) {
         console.error(err);
       }
@@ -123,11 +133,12 @@ export default function Chatroom() {
       });
 
       setmessageList(newList.reverse());
+      
+      // console.log(querySnapshot);
+
     } catch (err) {
       console.error(err);
     }
-    // window.scrollTo({ left: 0, bottom: 0, behavior: "smooth" });
-    // document.getElementById("dummy").scrollIntoView(false,{ behaviour: "smooth" });
   };
 
   useEffect(() => {
@@ -159,32 +170,19 @@ export default function Chatroom() {
     setinputer(e.target.value);
     e.preventDefault();
   };
+
   const getNewMessageList = async () => {
     try {
-      // Query
-      // conversationReference
-      // const chatQuery = conversationReference.orderByChild("createdAt"). limitToLast(20);
-      const q = query(
-        messagesCollectionRef,
-        orderBy("createdAt", "desc")
-        // limit(30)
-      );
-      // console.log(username, "1");
-      const data = await getDocs(q);
-      const filteredData = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      // console.log(filteredData);
-
-      //   console.log(chatQuery);
-      //   filteredData.sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis()) ;
-
-      const newList = filteredData.filter((e) => {
-        return e.type == newId;
-      });
-
-      setNewmessageList(newList.reverse());
+      // let arr=[];
+      const q = query(collection(db, "messages"));
+const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  const cities = [];
+  querySnapshot.forEach((doc) => {
+    if (newId==doc.data().type)  cities.push(doc.data().desc);
+  });
+  // console.log("Current cities in CA: ", cities);
+  setNewmessageList(cities);
+});
     } catch (err) {
       console.error(err);
     }
@@ -196,12 +194,49 @@ export default function Chatroom() {
     // window.scrollTo({ left: 0, bottom: 0, behavior: "smooth" });
     // document.getElementById("dummy").scrollIntoView(false,{ behaviour: "smooth" });
   };
-  setTimeout(() => {
-    getNewMessageList();
-    if (messageList.length != NewmessageList.length) {
-      setmessageList(NewmessageList);
-    }
-  }, 1000);
+setTimeout(() => {
+  const qe = query(collection(db, "messages"));
+  const unsubscribe = onSnapshot(qe, (querySnapshot) => {
+    const cities = [];
+    querySnapshot.forEach((doc) => {
+      if (newId==doc.data().type)  cities.push(doc.data().desc);
+    });
+    // console.log("Current cities in CA: ", cities);
+    setNewmessageList(cities);
+    // if (NewmessageList.length!=messageList) getMessageList();
+  }); 
+}, 3000);
+ 
+  //   setTimeout(async () => {
+// getNewMessageList();    
+//     if (messageList.length != NewmessageList[0]) {
+//       // setmessageList(NewmessageList);
+//       getMessageList();
+//     }
+//   }, 2000);
+
+
+
+  // const db = getDatabase();
+//  useEffect(() => {
+
+  // const docRef = doc(db);
+    
+  // const docSnap =  getDocs(messagesCollectionRef);
+
+  // // if (!docSnap.exists()) {
+     
+  //   try {
+  //     console.log(docSnap);   
+  //   } 
+  //   catch (error) {
+  //     console.log("ERROR", error.message);
+  //   }
+  // }
+
+//  }, [])
+ 
+
 
   const handleImageClick = () => {
     window.scrollTo({
@@ -229,7 +264,7 @@ export default function Chatroom() {
   };
   let val = "start";
   return (
-    <div style={{ textAlign: "-webkit-center" }}>
+    <div style={{textAlign: "-webkit-center"}}>
       {/* <Link></Link> */}
       <div
         style={{
@@ -239,8 +274,10 @@ export default function Chatroom() {
           marginLeft: "5%",
           marginRight: "5%",
           marginTop: "1%",
+          // overflow:"hidden"
         }}
       >
+       
         <button className="logoutBtn" onClick={logout}>
           <Link to="/" style={{ textDecoration: "none", color: "beige" }}>
             Log out
@@ -252,7 +289,7 @@ export default function Chatroom() {
           onClick={() => {
             copyToClipBoard(newId);
           }}
-        >
+          >
           Id :: {newId}
         </button>
 
@@ -261,7 +298,10 @@ export default function Chatroom() {
             All Rooms
           </Link>
         </button>
+       
       </div>
+        <hr style={{ maxWidth: "728px",color:"red",backgroundColor: "aliceblue",marginLeft:"10%",marginRight:"10%",display:"block"}}></hr>
+
       <div
         style={{
           display: "flex",
@@ -269,6 +309,7 @@ export default function Chatroom() {
           margin: "1%",
         }}
       >
+        {/* <hr class="hr hr-blurry" /> */}
         <div
           className="alert alert-warning"
           role="alert"
@@ -285,7 +326,7 @@ export default function Chatroom() {
           Copied ✅{" "}
         </div>
       </div>
-      <div style={{ marginBottom: "10%", marginTop: "3%", maxWidth: "728px" }}>
+      <div style={{ marginBottom: "10%", marginTop: "3%", maxWidth: "728px" ,  }}>
         {messageList.map((ele) => {
           return (
             // <div>

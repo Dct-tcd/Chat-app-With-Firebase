@@ -45,7 +45,6 @@ function ChatroomList() {
       getroomList();
       return navigate(`/room/${rand}`);
       // location.href = ;
-
     } catch (err) {
       console.error(err);
     }
@@ -53,7 +52,11 @@ function ChatroomList() {
 
   const getroomList = async () => {
     try {
-      const q = query(roomsCollectionRef, orderBy("createdAt","asc"), limit(6));
+      const q = query(
+        roomsCollectionRef,
+        orderBy("createdAt", "asc"),
+        limit(6)
+      );
       const data = await getDocs(q);
       const filteredData = data.docs.map((doc) => ({
         ...doc.data(),
@@ -130,11 +133,11 @@ function ChatroomList() {
               backgroundColor: "blue",
               borderRadius: "10%",
               padding: "1% 1%",
-              marginBottom: "2%"
+              marginBottom: "2%",
             }}
             onClick={HandleInput}
           >
-             Create a Room 
+            Create a Room
           </button>
           <div style={{ color: "yellow", display: `${checkroomId}` }}>
             {" "}
@@ -183,8 +186,8 @@ function ChatroomList() {
           padding: "100px",
           color: "lavender",
           marginTop: "1%",
-          marginLeft:"17%",
-          marginRight:"17%",
+          marginLeft: "17%",
+          marginRight: "17%",
         }}
       >
         {/* <form action={HandleInput}> */}
@@ -195,7 +198,8 @@ function ChatroomList() {
             <>
               <div
                 style={{
-                  color: "lavender",margin:"1%"
+                  color: "lavender",
+                  margin: "1%",
                 }}
               >
                 <div
