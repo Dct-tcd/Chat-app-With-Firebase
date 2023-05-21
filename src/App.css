@@ -228,3 +228,16 @@ img {
 {
   background:grey;
 }
+.lists{
+  margin-bottom: 8%;
+  margin-top: 3%;
+  max-width: 728px;  
+}
+
+@media (max-width: 730px) {
+  .lists{
+    margin-bottom: 15%;
+    margin-top: 3%;
+    max-width: 728px;  
+  }
+}

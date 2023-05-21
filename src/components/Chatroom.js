@@ -78,8 +78,18 @@ export default function Chatroom() {
   const { username } = useSelector((state) => {
     return state;
   });
-
+const [value, setvalue] = useState(0);
+  setTimeout(() => {
+    setvalue(0);
+  }, 1800000);
   const createmessage = async (e) => {
+    
+    // setvalue(value+1);
+// if (value>=5)
+// {
+  // alert("You have posted more than 5 times in less than 3 minutes! Try again after some time");
+// }
+// else {
     e.preventDefault();
     if (Input != "") {
       setinputer("");
@@ -105,6 +115,7 @@ export default function Chatroom() {
         console.error(err);
       }
     }
+    // }
   };
 
   const getMessageList = async () => {
@@ -326,7 +337,7 @@ setTimeout(() => {
           Copied ✅{" "}
         </div>
       </div>
-      <div style={{ marginBottom: "10%", marginTop: "3%", maxWidth: "728px" ,  }}>
+      <div className="lists">
         {messageList.map((ele) => {
           return (
             // <div>
@@ -425,6 +436,7 @@ setTimeout(() => {
           );
         })}
       </div>
+      {/* <div style={{marginTop:"4%"}}></div> */}
       {/* <div className="footerDiv">
           <div className="footerr" style={{ marginRight:window.innerWidth<=730 ? "1%" : window.innerWidth<=1000 ?"2%" : "14%" }} > <img src={downer} onClick={handleImageClick} /> </div>
       </div> */}
