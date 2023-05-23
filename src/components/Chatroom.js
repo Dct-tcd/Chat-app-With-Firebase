@@ -14,15 +14,24 @@ import {
   // onValue,
   // ref,
 } from "firebase/firestore";
-import {  where} from "firebase/firestore";
-
-import {  onSnapshot } from "firebase/firestore";
+import { where } from "firebase/firestore";
+import bin from "./bin.png";
+import { onSnapshot } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import style from "../App.css";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import downer from "./downer.png";
-import { getDatabase, ref, onValue, get} from "firebase/database";
+import { getDatabase, onValue, get } from "firebase/database";
+
+import { v4 } from "uuid";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  list,
+} from "firebase/storage";
 
 export default function Chatroom() {
   //   const handleFireBaseUpload = e => {
@@ -32,33 +41,47 @@ export default function Chatroom() {
   //   if(imageAsFile === '') {
   //     console.error(`not an image, the image file is a ${typeof(imageAsFile)}`)
   //   }
-  //   const uploadTask = storage.ref(`/images/${imageAsFile.name}`).put(imageAsFile)
-  //   //initiates the firebase side uploading
-  //   uploadTask.on('state_changed',
-  //   (snapShot) => {
-  //     //takes a snap shot of the process as it is happening
-  //     console.log(snapShot)
-  //   }, (err) => {
-  //     //catches the errors
-  //     console.log(err)
-  //   }, () => {
-  //     // gets the functions from storage refences the image storage in firebase by the children
-  //     // gets the download url then sets the image from firebase as the value for the imgUrl key:
-  //     storage.ref('images').child(imageAsFile.name).getDownloadURL()
-  //      .then(fireBaseUrl => {
-  //        setImageAsUrl(prevObject => ({...prevObject, imgUrl: fireBaseUrl}))
-  //      })
-  //   })
-  //   }
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imageUrls, setImageUrls] = useState([]);
+  const imagesListRef = ref(storage, "images/");
 
-  //   const allInputs = {imgUrl: ''}
-  //   const [imageAsFile, setImageAsFile] = useState('')
-  //   const [imageAsUrl, setImageAsUrl] = useState(allInputs)
-  
-  //   const handleImageAsFile = (e) => {
-  //     const image = e.target.files[0]
-  //     setImageAsFile(imageFile => (image))
-  // }
+  const uploadFile = async () => {
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImageUrls((prev) => [...prev, url]);
+      });
+    });
+    // e.preventDefault();
+    // if (Input != "") {
+    // setinputer("");
+    const ans = Number(new Date());
+    // console.log(url);
+    const Dater = new Date().toLocaleString();
+    try {
+      await addDoc(messagesCollectionRef, {
+        createdAt: ans,
+        desc: "",
+        Imgurl: imageUrls[imageUrls.length - 1],
+        userId: auth?.currentUser?.uid,
+        type: newId,
+        Date: Dater,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    listAll(imagesListRef).then((response) => {
+      response.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          setImageUrls((prev) => [...prev, url]);
+        });
+      });
+    });
+  }, []);
 
   const params = useParams();
   const id = params.id;
@@ -78,23 +101,15 @@ export default function Chatroom() {
   const { username } = useSelector((state) => {
     return state;
   });
-const [value, setvalue] = useState(0);
-  setTimeout(() => {
-    setvalue(0);
-  }, 1800000);
+  const [value, setvalue] = useState(0);
+  const [DocId, setDocId] = useState([]);
+
   const createmessage = async (e) => {
-    
-    // setvalue(value+1);
-// if (value>=5)
-// {
-  // alert("You have posted more than 5 times in less than 3 minutes! Try again after some time");
-// }
-// else {
     e.preventDefault();
     if (Input != "") {
       setinputer("");
       const ans = Number(new Date());
-      
+
       const Dater = new Date().toLocaleString();
       try {
         await addDoc(messagesCollectionRef, {
@@ -109,8 +124,9 @@ const [value, setvalue] = useState(0);
         // getNewMessageList();
         getMessageList();
         window.scrollTo({ left: 0, bottom: 0, behavior: "smooth" });
-        document.getElementById("dummy").scrollIntoView(false,{ behaviour: "smooth" });
-
+        document
+          .getElementById("dummy")
+          .scrollIntoView(false, { behaviour: "smooth" });
       } catch (err) {
         console.error(err);
       }
@@ -134,6 +150,15 @@ const [value, setvalue] = useState(0);
         ...doc.data(),
         id: doc.id,
       }));
+      // const [filtered, setfiltered] = useState([])
+      let filteredDocerData = [];
+      // const filteredDocData = data.docs((doc) => ({
+
+      //   // {console.log(doc.id);}
+      //   //  setfiltered([...filtered , doc.id ]);
+      //   {filteredDocerData.push(doc.id)}
+      // }));
+      // const
       // console.log(filteredData);
 
       //   console.log(chatQuery);
@@ -144,9 +169,14 @@ const [value, setvalue] = useState(0);
       });
 
       setmessageList(newList.reverse());
-      
-      // console.log(querySnapshot);
+      data.docs.forEach((ele) => {
+        filteredDocerData.push(ele.id);
+      });
 
+      // console.log(filteredDocerData);
+      setDocId(filteredDocerData.reverse());
+
+      // console.log(querySnapshot);
     } catch (err) {
       console.error(err);
     }
@@ -166,6 +196,18 @@ const [value, setvalue] = useState(0);
         );
     }
   }, []);
+
+  const deleter = async (val) => {
+    // console.log(messageList[val].id);
+    let ans  = window.confirm("Really Want to Delete it ! ");
+    if (ans==true)
+    {
+        // console.log(ans);
+      await deleteDoc(doc(messagesCollectionRef, messageList[val - 1].id));
+      getMessageList();
+    }
+    };
+
   const [Input, setInput] = useState("");
 
   const logout = async () => {
@@ -186,14 +228,14 @@ const [value, setvalue] = useState(0);
     try {
       // let arr=[];
       const q = query(collection(db, "messages"));
-const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  const cities = [];
-  querySnapshot.forEach((doc) => {
-    if (newId==doc.data().type)  cities.push(doc.data().desc);
-  });
-  // console.log("Current cities in CA: ", cities);
-  setNewmessageList(cities);
-});
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const cities = [];
+        querySnapshot.forEach((doc) => {
+          if (newId == doc.data().type) cities.push(doc.data().desc);
+        });
+        // console.log("Current cities in CA: ", cities);
+        setNewmessageList(cities);
+      });
     } catch (err) {
       console.error(err);
     }
@@ -205,49 +247,48 @@ const unsubscribe = onSnapshot(q, (querySnapshot) => {
     // window.scrollTo({ left: 0, bottom: 0, behavior: "smooth" });
     // document.getElementById("dummy").scrollIntoView(false,{ behaviour: "smooth" });
   };
-setTimeout(() => {
-  const qe = query(collection(db, "messages"));
-  const unsubscribe = onSnapshot(qe, (querySnapshot) => {
-    const cities = [];
-    querySnapshot.forEach((doc) => {
-      if (newId==doc.data().type)  cities.push(doc.data().desc);
+  setTimeout(() => {
+    const qe = query(collection(db, "messages"));
+    const unsubscribe = onSnapshot(qe, (querySnapshot) => {
+      const cities = [];
+      querySnapshot.forEach((doc) => {
+        if (newId == doc.data().type) cities.push(doc.data().desc);
+      });
+      // console.log("Current cities in CA: ", cities);
+      setNewmessageList(cities);
+      // if (NewmessageList.length!=messageList) getMessageList();
     });
-    // console.log("Current cities in CA: ", cities);
-    setNewmessageList(cities);
-    // if (NewmessageList.length!=messageList) getMessageList();
-  }); 
-}, 3000);
- 
+  }, 3000);
+
+  // setTimeout(() => {
+  //   listener();
+  // }, 300000);
   //   setTimeout(async () => {
-// getNewMessageList();    
-//     if (messageList.length != NewmessageList[0]) {
-//       // setmessageList(NewmessageList);
-//       getMessageList();
-//     }
-//   }, 2000);
-
-
+  // getNewMessageList();
+  //     if (messageList.length != NewmessageList[0]) {
+  //       // setmessageList(NewmessageList);
+  //       getMessageList();
+  //     }
+  //   }, 2000);
 
   // const db = getDatabase();
-//  useEffect(() => {
+  //  useEffect(() => {
 
   // const docRef = doc(db);
-    
+
   // const docSnap =  getDocs(messagesCollectionRef);
 
   // // if (!docSnap.exists()) {
-     
+
   //   try {
-  //     console.log(docSnap);   
-  //   } 
+  //     console.log(docSnap);
+  //   }
   //   catch (error) {
   //     console.log("ERROR", error.message);
   //   }
   // }
 
-//  }, [])
- 
-
+  //  }, [])
 
   const handleImageClick = () => {
     window.scrollTo({
@@ -275,7 +316,7 @@ setTimeout(() => {
   };
   let val = "start";
   return (
-    <div style={{textAlign: "-webkit-center"}}>
+    <div style={{ textAlign: "-webkit-center" }}>
       {/* <Link></Link> */}
       <div
         style={{
@@ -288,7 +329,6 @@ setTimeout(() => {
           // overflow:"hidden"
         }}
       >
-       
         <button className="logoutBtn" onClick={logout}>
           <Link to="/" style={{ textDecoration: "none", color: "beige" }}>
             Log out
@@ -300,7 +340,7 @@ setTimeout(() => {
           onClick={() => {
             copyToClipBoard(newId);
           }}
-          >
+        >
           Id :: {newId}
         </button>
 
@@ -309,10 +349,17 @@ setTimeout(() => {
             All Rooms
           </Link>
         </button>
-       
       </div>
-        <hr style={{ maxWidth: "728px",color:"red",backgroundColor: "aliceblue",marginLeft:"10%",marginRight:"10%",display:"block"}}></hr>
-
+      <hr
+        style={{
+          maxWidth: "728px",
+          color: "red",
+          backgroundColor: "aliceblue",
+          marginLeft: "10%",
+          marginRight: "10%",
+          display: "block",
+        }}
+      ></hr>
       <div
         style={{
           display: "flex",
@@ -320,7 +367,6 @@ setTimeout(() => {
           margin: "1%",
         }}
       >
-        {/* <hr class="hr hr-blurry" /> */}
         <div
           className="alert alert-warning"
           role="alert"
@@ -338,7 +384,7 @@ setTimeout(() => {
         </div>
       </div>
       <div className="lists">
-        {messageList.map((ele) => {
+        {messageList.map((ele, ind) => {
           return (
             // <div>
             <div
@@ -360,7 +406,8 @@ setTimeout(() => {
                 }`,
               }}
             >
-              {" "}
+              <div style={{ display: "none" }}> {ind++}</div>
+              {/* {setvalue(value+1)} */}
               <button
                 style={{
                   alignSelf: "start",
@@ -368,7 +415,6 @@ setTimeout(() => {
                   fontSize: "1rem",
                 }}
                 type="button"
-                // className="btn btn-secondary"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
                 title={`${ele.name}`}
@@ -392,29 +438,48 @@ setTimeout(() => {
                   style={{
                     display: "flex",
                     color: "white",
-                    padding: "8px",
-                    borderRadius: "8px",
+                    padding: `${!ele.desc ? "0px" : "8px"}`,
+                    borderRadius: `${!ele.desc ? "0px" : "8px"}`,
                     marginLeft: "3px",
                     marginRight: "3px",
                     marginTop: "3px",
                     textAlign: "left",
                     maxWidth: "300px",
                     wordBreak: "break-word",
+                    // lineHeight:"normal",
+                    // pointer:"cursor",
                     backgroundColor: `${
                       ele.userId !== auth.currentUser.uid
                         ? "green"
                         : "hwb(204 29% 22%)"
                     }`,
                   }}
+                  onClick={() => {
+                    deleter(ind);
+                  }}
                 >
-                  {ele.desc}
-                  {/* {ele.Date} */}
-                  {/* </button> */}
+                  {!ele.desc ? (
+                    <img
+                      style={{
+                        width: "250px",
+                        height: "250px",
+                        borderRadius: "12px",
+                        margin: "0px",
+                        border: "solid",
+                        borderColor: "darkcyan",
+                      }}
+                      src={ele.Imgurl}
+                    />
+                  ) : (
+                    ele.desc 
+                  )} 
+                  {/* <div style={{display:`${ele.userId !== auth.currentUser.uid?"none":"visible"}`}}>&nbsp;</div>  */}
+                  <img style={{alignSelf: "center", zoom: "50%", cursor: "pointer",display:`${ele.userId !== auth.currentUser.uid?
+                    "none":"visible"}` }} src={bin} />
                 </div>
                 <div
                   className="timer"
                   style={{
-                    // display: "flex",
                     color: "white",
                     padding: "3px",
                     borderRadius: "8px",
@@ -428,8 +493,6 @@ setTimeout(() => {
                   }}
                 >
                   {ele.Date}
-                  {/* {ele.Date} */}
-                  {/* </button> */}
                 </div>
               </div>
             </div>
@@ -449,14 +512,29 @@ setTimeout(() => {
             onChange={handleinput}
             value={inputer}
           />
-          <div style={{display:"flex",flexDirection:"column",alignSelf:"end"}} >
+          {/* <div> */}
+
+          {/* </div> */}
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignSelf: "end",
+            }}
+          >
             <img
               className="Scroller"
-              style={{ border: "solid", borderRadius: "30%", padding: "5%",marginLeft:"10%",alignSelf: "center" }}
+              style={{
+                border: "solid",
+                borderRadius: "30%",
+                padding: "5%",
+                marginLeft: "10%",
+                alignSelf: "center",
+              }}
               src={downer}
               onClick={handleImageClick}
             />
-
             <button
               style={{
                 alignContent: "center",
@@ -469,7 +547,19 @@ setTimeout(() => {
               🕊️
             </button>
           </div>
+          {/* </div> */}
         </form>
+
+        {/* <input
+        className="footer"
+              type="file"
+              onChange={(event) => {
+                setImageUpload(event.target.files[0]);
+              }}
+            /> */}
+
+        {/* <button onClick={uploadFile}> Upload Image</button>  */}
+
         {/* </div>    */}
         {/* <form onSubmit={handleFireBaseUpload}>
         <input 
