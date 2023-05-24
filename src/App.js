@@ -46,7 +46,7 @@ function App() {
           }
         ></Route>
         <Route path="/room/:id" element={<Chatroom />}></Route>
-        <Route path="/rooms" element={<><Nav /><ChatroomList /></>}></Route>
+        <Route path="/rooms" element={<><ChatroomList /></>}></Route>
       </Routes>
     </BrowserRouter>
   );
