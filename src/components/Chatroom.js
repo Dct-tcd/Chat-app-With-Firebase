@@ -474,7 +474,7 @@ export default function Chatroom() {
                     ele.desc 
                   )} 
                   {/* <div style={{display:`${ele.userId !== auth.currentUser.uid?"none":"visible"}`}}>&nbsp;</div>  */}
-                  <img style={{alignSelf: "center", zoom: "50%", cursor: "pointer",display:`${ele.userId !== auth.currentUser.uid?
+                  <img style={{alignSelf: "center", zoom: "50%", cursor: "pointer",marginLeft:"11px",display:`${ele.userId !== auth.currentUser.uid?
                     "none":"visible"}` }} src={bin} />
                 </div>
                 <div
