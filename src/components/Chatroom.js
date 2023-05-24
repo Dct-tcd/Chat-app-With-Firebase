@@ -317,7 +317,9 @@ export default function Chatroom() {
   let val = "start";
   return (
     <div style={{ textAlign: "-webkit-center" }}>
+
       {/* <Link></Link> */}
+      
       <div
         style={{
           display: "flex",
@@ -454,9 +456,7 @@ export default function Chatroom() {
                         : "hwb(204 29% 22%)"
                     }`,
                   }}
-                  onClick={() => {
-                    deleter(ind);
-                  }}
+                  
                 >
                   {!ele.desc ? (
                     <img
@@ -474,7 +474,8 @@ export default function Chatroom() {
                     ele.desc 
                   )} 
                   {/* <div style={{display:`${ele.userId !== auth.currentUser.uid?"none":"visible"}`}}>&nbsp;</div>  */}
-                  <img style={{alignSelf: "center", zoom: "50%", cursor: "pointer",marginLeft:"11px",display:`${ele.userId !== auth.currentUser.uid?
+                  <img       onClick={ele.userId == auth.currentUser.uid ? ()=>{deleter(ind)}:console.log("Dev")}
+            style={{alignSelf: "center", zoom: "50%", cursor: "pointer",marginLeft:"11px",display:`${ele.userId !== auth.currentUser.uid?
                     "none":"visible"}` }} src={bin} />
                 </div>
                 <div

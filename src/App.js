@@ -15,9 +15,9 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Chatroom from "./components/Chatroom";
 import ChatroomList from "./components/ChatroomList.js";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Nav from "./components/Nav.js";
 
 function App() {
-
   const [userSign, setuserSign] = useState("");
 
   const auth = getAuth();
@@ -32,22 +32,23 @@ function App() {
 
   return (
     // <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={userSign == "" ? <Auth /> : <ChatroomList />}
-          ></Route>
-          <Route
-            path="/room/:id"
-             element= {<  Chatroom/>}
-          ></Route>
-          <Route
-            path="/rooms"
-             element= {<ChatroomList/>}
-          ></Route>
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            userSign == "" ? (
+              <Auth />
+            ) : (
+
+                <ChatroomList />
+            )
+          }
+        ></Route>
+        <Route path="/room/:id" element={<Chatroom />}></Route>
+        <Route path="/rooms" element={<><Nav /><ChatroomList /></>}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
