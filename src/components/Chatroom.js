@@ -474,7 +474,7 @@ export default function Chatroom() {
                     ele.desc 
                   )} 
                   {/* <div style={{display:`${ele.userId !== auth.currentUser.uid?"none":"visible"}`}}>&nbsp;</div>  */}
-                  <img       onClick={ele.userId == auth.currentUser.uid ? ()=>{deleter(ind)}:console.log("Dev")}
+                  <img       onClick={ele.userId == auth.currentUser.uid ? ()=>{deleter(ind)}:console.log("s")}
             style={{alignSelf: "center", zoom: "50%", cursor: "pointer",marginLeft:"11px",display:`${ele.userId !== auth.currentUser.uid?
                     "none":"visible"}` }} src={bin} />
                 </div>

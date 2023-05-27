@@ -18,11 +18,12 @@ import { useNavigate } from "react-router-dom";
 
 function ChatroomList() {
   let navigate = useNavigate();
-
+  
   const [checkroomId, setcheckroomId] = useState("none");
-
+  const [vroomList, setvroomList] = useState([])
   const [checkroomValid, setcheckroomValid] = useState("none");
-
+  
+  const [FullroomList, setFullroomList] = useState([])
   const roomsCollectionRef = collection(db, "rooms");
   const [roomList, setroomList] = useState([]);
   // const [inputer, setinputer] = useState([]);
@@ -68,6 +69,24 @@ function ChatroomList() {
       console.error(err);
     }
   };
+  const getFullroomList = async () => {
+    try {
+      const q = query(
+        roomsCollectionRef,
+        orderBy("createdAt", "asc"),
+        // limit(6)
+      );
+      const data = await getDocs(q);
+      const filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      // console.log(filteredData,);
+      setFullroomList(filteredData);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const HandleInput = (e) => {
     // let ans = 0;
     // roomList.forEach((val) => {
@@ -87,12 +106,12 @@ function ChatroomList() {
   const HandleInputFoot = (e) => {
     let ans = 0;
     // console.log(titlefoot);
-    roomList.forEach((val) => {
+    FullroomList.forEach((val) => {
       titlefoot == val.ider ? ans++ : (ans = ans);
       // console.log(val.ider);
+      // console.log(val);
     });
 
-    // console.log(ans, "ans");
     if (ans == 0) {
       // console.log("hhh");
       setcheckroomValid("block");
@@ -107,6 +126,8 @@ function ChatroomList() {
 
   useEffect(() => {
     getroomList();
+    getFullroomList();
+    // vroomList();
   }, []);
 
   // console.log(roomList);

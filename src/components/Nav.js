@@ -12,7 +12,7 @@ function Nav() {
           alignItems: "center",
         }}
       >
-        <Link target="#">
+        <Link to="#">
           <img
             src={
               "https://www.shareicon.net/data/2015/08/10/83196_chat_1024x1024.png"
@@ -20,15 +20,15 @@ function Nav() {
           />
         </Link>
         <Link
-          target=""
-          style={{ color: "floralwhite", marginLeft: "3%", marginRight: "3%" }}
+          to="/rooms"
+          style={{ color: "floralwhite", marginLeft: "3%", marginRight: "1%" }}
         >
           {" "}
           Text Channels{" "}
         </Link>
         <Link
-          target=""
-          style={{ color: "floralwhite", marginLeft: "3%", marginRight: "3%" }}
+          to="/vrooms"
+          style={{ color: "floralwhite", marginLeft: "1%", marginRight: "3%" }}
         >
           {" "}
           Voice Channels{" "}
