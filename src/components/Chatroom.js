@@ -53,11 +53,7 @@ export default function Chatroom() {
         setImageUrls((prev) => [...prev, url]);
       });
     });
-    // e.preventDefault();
-    // if (Input != "") {
-    // setinputer("");
     const ans = Number(new Date());
-    // console.log(url);
     const Dater = new Date().toLocaleString();
     try {
       await addDoc(messagesCollectionRef, {
@@ -87,7 +83,6 @@ export default function Chatroom() {
   const id = params.id;
   let newId = "";
   for (let ip = 0; ip < id.length; ip++) {
-    // console.log(id[ip],"kkkkk");
     if (id[ip] >= "0" && id[ip] <= "9") newId += id[ip];
   }
 
@@ -97,7 +92,6 @@ export default function Chatroom() {
 
   const [photourl, setphotourl] = useState("");
   const messagesCollectionRef = collection(db, "messages");
-  // const q = query(collection(db, "messages").orderBy("createdAt"));
   const { username } = useSelector((state) => {
     return state;
   });
@@ -136,34 +130,16 @@ export default function Chatroom() {
 
   const getMessageList = async () => {
     try {
-      // Query
-      // conversationReference
-      // const chatQuery = conversationReference.orderByChild("createdAt"). limitToLast(20);
       const q = query(
         messagesCollectionRef,
         orderBy("createdAt", "desc")
-        // limit(30)
       );
-      // console.log(username, "1");
       const data = await getDocs(q);
       const filteredData = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
-      // const [filtered, setfiltered] = useState([])
       let filteredDocerData = [];
-      // const filteredDocData = data.docs((doc) => ({
-
-      //   // {console.log(doc.id);}
-      //   //  setfiltered([...filtered , doc.id ]);
-      //   {filteredDocerData.push(doc.id)}
-      // }));
-      // const
-      // console.log(filteredData);
-
-      //   console.log(chatQuery);
-      //   filteredData.sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis()) ;
-
       const newList = filteredData.filter((e) => {
         return e.type == newId;
       });
@@ -173,11 +149,8 @@ export default function Chatroom() {
         filteredDocerData.push(ele.id);
       });
 
-      // console.log(filteredDocerData);
       setDocId(filteredDocerData.reverse());
-
-      // console.log(querySnapshot);
-    } catch (err) {
+   } catch (err) {
       console.error(err);
     }
   };
@@ -198,11 +171,9 @@ export default function Chatroom() {
   }, []);
 
   const deleter = async (val) => {
-    // console.log(messageList[val].id);
     let ans  = window.confirm("Really Want to Delete it ! ");
     if (ans==true)
     {
-        // console.log(ans);
       await deleteDoc(doc(messagesCollectionRef, messageList[val - 1].id));
       getMessageList();
     }
@@ -226,7 +197,6 @@ export default function Chatroom() {
 
   const getNewMessageList = async () => {
     try {
-      // let arr=[];
       const q = query(collection(db, "messages"));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const cities = [];
@@ -239,14 +209,8 @@ export default function Chatroom() {
     } catch (err) {
       console.error(err);
     }
-    // window.scrollTo({
-    //   left: 0,
-    //   top: document.body.scrollHeight,
-    //   behavior: "smooth",
-    // });
-    // window.scrollTo({ left: 0, bottom: 0, behavior: "smooth" });
-    // document.getElementById("dummy").scrollIntoView(false,{ behaviour: "smooth" });
   };
+
   setTimeout(() => {
     const qe = query(collection(db, "messages"));
     const unsubscribe = onSnapshot(qe, (querySnapshot) => {
@@ -254,41 +218,9 @@ export default function Chatroom() {
       querySnapshot.forEach((doc) => {
         if (newId == doc.data().type) cities.push(doc.data().desc);
       });
-      // console.log("Current cities in CA: ", cities);
-      setNewmessageList(cities);
-      // if (NewmessageList.length!=messageList) getMessageList();
+      if (messageList.length!=NewmessageList) getMessageList();
     });
   }, 3000);
-
-  // setTimeout(() => {
-  //   listener();
-  // }, 300000);
-  //   setTimeout(async () => {
-  // getNewMessageList();
-  //     if (messageList.length != NewmessageList[0]) {
-  //       // setmessageList(NewmessageList);
-  //       getMessageList();
-  //     }
-  //   }, 2000);
-
-  // const db = getDatabase();
-  //  useEffect(() => {
-
-  // const docRef = doc(db);
-
-  // const docSnap =  getDocs(messagesCollectionRef);
-
-  // // if (!docSnap.exists()) {
-
-  //   try {
-  //     console.log(docSnap);
-  //   }
-  //   catch (error) {
-  //     console.log("ERROR", error.message);
-  //   }
-  // }
-
-  //  }, [])
 
   const handleImageClick = () => {
     window.scrollTo({
@@ -308,7 +240,6 @@ export default function Chatroom() {
       setCopySuccess("block");
       setTimeout(() => {
         setCopySuccess("none");
-        // console.log("devada");
       }, 1200);
     } catch (err) {
       setCopySuccess("none");
@@ -316,10 +247,7 @@ export default function Chatroom() {
   };
   let val = "start";
   return (
-    <div style={{ textAlign: "-webkit-center" }}>
-
-      {/* <Link></Link> */}
-      
+    <div style={{ textAlign: "-webkit-center" }}>      
       <div
         style={{
           display: "flex",
