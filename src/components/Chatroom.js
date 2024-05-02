@@ -69,15 +69,15 @@ export default function Chatroom() {
     }
   };
 
-  useEffect(() => {
-    listAll(imagesListRef).then((response) => {
-      response.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          setImageUrls((prev) => [...prev, url]);
-        });
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   listAll(imagesListRef).then((response) => {
+  //     response.items.forEach((item) => {
+  //       getDownloadURL(item).then((url) => {
+  //         setImageUrls((prev) => [...prev, url]);
+  //       });
+  //     });
+  //   });
+  // }, []);
 
   const params = useParams();
   const id = params.id;
@@ -211,16 +211,16 @@ export default function Chatroom() {
     }
   };
 
-  setTimeout(() => {
-    const qe = query(collection(db, "messages"));
-    const unsubscribe = onSnapshot(qe, (querySnapshot) => {
-      const cities = [];
-      querySnapshot.forEach((doc) => {
-        if (newId == doc.data().type) cities.push(doc.data().desc);
-      });
-      if (messageList.length!=NewmessageList) getMessageList();
-    });
-  }, 3000);
+  // setTimeout(() => {
+    // const qe = query(collection(db, "messages"));
+    // const unsubscribe = onSnapshot(qe, (querySnapshot) => {
+    //   const cities = [];
+    //   querySnapshot.forEach((doc) => {
+    //     if (newId == doc.data().type) cities.push(doc.data().desc);
+    //   });
+    //   if (messageList.length!=NewmessageList) getMessageList();
+    // });
+  // }, 12000);
 
   const handleImageClick = () => {
     window.scrollTo({
@@ -271,7 +271,8 @@ export default function Chatroom() {
             copyToClipBoard(newId);
           }}
         >
-          Id :: {newId}
+          {/* Id :: {newId} */}
+          Copy Group Id 
         </button>
 
         <button className="logoutBtn">

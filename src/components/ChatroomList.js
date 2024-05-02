@@ -172,7 +172,7 @@ function ChatroomList() {
             onChange={(e) => {
               settitlefoot(e.target.value);
             }}
-            style={{ marginLeft: "2%" }}
+            style={{ marginLeft: "2%" , webkitTextSecurity: "disc" }}
           />
 
           {/* <label> */}
