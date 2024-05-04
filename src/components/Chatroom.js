@@ -258,7 +258,7 @@ export default function Chatroom() {
   };
 
   return (
-    <div style={{ backgroundColor:"indigo" ,  textAlign: "-webkit-center" ,borderRadius:"10px"}}>
+    <div style={{ backgroundColor:"#483D8B" ,  textAlign: "-webkit-center" ,borderRadius:"10px"}}>
       <div style={{ textAlign: "-webkit-center" }}>
         <div
           style={{
@@ -278,7 +278,7 @@ export default function Chatroom() {
           <button 
           style={{
             background:"#6A0DAD" ,borderRadius:"8px", display:"flex",alignItems:"center"}} className="logoutBtn px-2 py-1 flex self-end" onClick={logout}>
-            <Link to="/" className="flex self-end" style={{ textDecoration: "none", color: "beige" }}>
+            <Link to="/" className="flex self-end" style={{fontSize:"16px", textDecoration: "none", color: "beige" }}>
               Log out
             </Link>
             <span class="ml-2 material-symbols-outlined">
@@ -287,7 +287,7 @@ logout
           </button>
 
           <button
-          style={{
+          style={{fontSize:"16px",
             background:"#6A0DAD",borderRadius:"8px", display:"flex",alignItems:"center"}}
             className="logoutBtn px-2 py-1 flex self-end"
             onClick={() => {
@@ -306,7 +306,7 @@ content_copy
             background:"#6A0DAD",borderRadius:"8px", display:"flex",alignItems:"center"}}>
             <Link
               to="/rooms" className="flex self-end"
-              style={{ textDecoration: "none", color: "beige", display:"flex",alignItems:"center"}}
+              style={{fontSize:"16px", textDecoration: "none", color: "beige", display:"flex",alignItems:"center"}}
             >
               All Rooms
               <span class="ml-2 material-symbols-outlined">
@@ -513,6 +513,8 @@ apps
               placeholder="Your Message ..."
               onChange={handleinput}
               value={inputer}
+              style={{ flex: "1", marginRight: "10px", padding: "10px", borderRadius: "8px", border: "0.1px solid #ccc" }} // Added flex, padding, and border radius
+   
             />
             {/* <div> */}
 
@@ -540,13 +542,14 @@ apps
               />
               <button
                 style={{
-                  alignContent: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  backgroundColor: "cornflowerblue",
+                  color: "white",
+                  borderRadius: "8px",
+                  padding: "10px 20px",
+                  border: "none",
+                  cursor: "pointer",
                   marginTop: "50%",
-                  borderRadius:"10px",
-                  paddingLeft:"20px",
-                  paddingRight:"20px",
+                  
                   // paddingTop: "20%",
                 }}
               >

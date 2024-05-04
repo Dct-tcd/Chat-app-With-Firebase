@@ -1,5 +1,5 @@
 body {
-  background-color: indigo;
+  background-color: #483D8B;
   /* justify-items: center; */
   text-align: center;
   /* overflow-y: scroll; */
@@ -99,7 +99,7 @@ input {
 }
 
 button{
-  background-color: indigo; 
+  background-color: #483D8B; 
   /* background-color: #2eb82e; */
   border: none;
   color: white;
@@ -131,7 +131,7 @@ button{
     margin-bottom: 2px;
     padding-left: 1%;
     padding-right: 1%;
-     background-color:indigo;
+     background-color:#483D8B;
 }
 .footerr{
   height: 8vh;
@@ -236,7 +236,7 @@ img {
   background:grey;
 }
 .Scroller{
-  background-color: indigo;
+  background-color: #483D8B;
 }
 .lists{
   margin-bottom: 8%;

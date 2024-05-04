@@ -236,7 +236,7 @@ function ChatroomList() {
     marginTop: "10%",
     marginLeft: "5%",
     marginRight: "5%",
-    backgroundColor: "indigo",
+    backgroundColor: "#483D8B",
   }}
 >
   {roomList.map((room) => (
@@ -246,16 +246,16 @@ function ChatroomList() {
         color: "lavender",
         margin: "10px",
         width: "170px",
-        border: "1px solid #6D28D9", // Adjusted border color to match indigo shade
+        border: "1px solid #6D28D9", // Adjusted border color to match #483D8B shade
         borderRadius: "8px",
         padding: "15px",
         textAlign: "center",
-        backgroundColor: "#6D28D9", // Adjusted background color to match indigo shade
+        backgroundColor: "#6D28D9", // Adjusted background color to match #483D8B shade
       }}
     >
       <Link
         to={`/room/${room.ider}`}
-        style={{ color: "#F3EFEF", textDecoration: "none" }} // Adjusted link color to contrast with indigo
+        style={{ color: "#F3EFEF", textDecoration: "none" }} // Adjusted link color to contrast with #483D8B
       >
         {room.title}
       </Link>
