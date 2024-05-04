@@ -12,6 +12,7 @@ export function Auth() {
   const { username } = useSelector((state) => {
     return state;
   });
+  
   useEffect(() => {
     dispatch({ type: "username_change", payload: Name });
   }, [Name]);
@@ -37,6 +38,10 @@ export function Auth() {
   const tomper = () => {
     console.log(rr);
     setrr("block");
+    setTimeout(() => {
+      setrr("none");
+      
+    }, 1500);
   };
   // console.log("mounting");
   return (
@@ -44,36 +49,40 @@ export function Auth() {
       <div
         className="Diver"
         style={{
-          marginTop: "10%",
+          marginTop: "15%",
           marginBottom: "1%",
           textAlign: "center",
-          color: "lightgreen",
+          color: "#CCCCCC",
+          fontSize:"35px"
         }}
       >
         <h1>Join Chat</h1>
         {/* <div className="wrapper"> */}
-        <div>
+        <div style={{ color: "red", display: `${rr}`,  }}>
+          Please Provide a Name
+        </div>
+        <div >
           <input
+          className="rounded"
             placeholder="Avatar Name"
             onChange={(e) => {
               setName(e.target.value);
             }}
             value={Name}
-            style={{ marginTop: "2%" }}
+            style={{ height:"8vh" , width:"50vh"}}
           />
         </div>
-        <div style={{ color: "red", display: `${rr}` }}>
-          Please Provide a Name
-        </div>
-        <div>
+        
+        {/* <div> */}
           <button
+          className="rounded"
             style={{
               paddingLeft: "20%",
-              margin: "2%",
+              // margin: "1%",
               paddingRight: "20%",
-            display:"inline",
+               display:"inline",
               // color:"darkslategrey",
-              backgroundColor: "darkslategrey",
+              backgroundColor: "cornflowerblue",
             }}
             onClick={Name !== "" ? signin : tomper}
           >
@@ -81,6 +90,6 @@ export function Auth() {
           </button>
         </div>
       </div>
-    </div>
+    // </div>
   );
 }

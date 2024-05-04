@@ -130,10 +130,7 @@ export default function Chatroom() {
 
   const getMessageList = async () => {
     try {
-      const q = query(
-        messagesCollectionRef,
-        orderBy("createdAt", "desc")
-      );
+      const q = query(messagesCollectionRef, orderBy("createdAt", "desc"));
       const data = await getDocs(q);
       const filteredData = data.docs.map((doc) => ({
         ...doc.data(),
@@ -150,7 +147,7 @@ export default function Chatroom() {
       });
 
       setDocId(filteredDocerData.reverse());
-   } catch (err) {
+    } catch (err) {
       console.error(err);
     }
   };
@@ -171,13 +168,12 @@ export default function Chatroom() {
   }, []);
 
   const deleter = async (val) => {
-    let ans  = window.confirm("Really Want to Delete it ! ");
-    if (ans==true)
-    {
+    let ans = window.confirm("Really Want to Delete it ! ");
+    if (ans == true) {
       await deleteDoc(doc(messagesCollectionRef, messageList[val - 1].id));
       getMessageList();
     }
-    };
+  };
 
   const [Input, setInput] = useState("");
 
@@ -212,14 +208,14 @@ export default function Chatroom() {
   };
 
   // setTimeout(() => {
-    // const qe = query(collection(db, "messages"));
-    // const unsubscribe = onSnapshot(qe, (querySnapshot) => {
-    //   const cities = [];
-    //   querySnapshot.forEach((doc) => {
-    //     if (newId == doc.data().type) cities.push(doc.data().desc);
-    //   });
-    //   if (messageList.length!=NewmessageList) getMessageList();
-    // });
+  // const qe = query(collection(db, "messages"));
+  // const unsubscribe = onSnapshot(qe, (querySnapshot) => {
+  //   const cities = [];
+  //   querySnapshot.forEach((doc) => {
+  //     if (newId == doc.data().type) cities.push(doc.data().desc);
+  //   });
+  //   if (messageList.length!=NewmessageList) getMessageList();
+  // });
   // }, 12000);
 
   const handleImageClick = () => {
@@ -246,241 +242,321 @@ export default function Chatroom() {
     }
   };
   let val = "start";
+
+  const ExtractTimefromDateString = (str) => {
+    let date = new Date(str);
+    return date.toLocaleTimeString(navigator.language, {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    // return str.toLocaleString
+  };
+  const ExtractDatefromDateString = (str) => {
+    let date = new Date(str);
+    return date.toLocaleDateString();
+    // return str.toLocaleString
+  };
+
   return (
-    <div style={{ textAlign: "-webkit-center" }}>      
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          maxWidth: "728px",
-          marginLeft: "5%",
-          marginRight: "5%",
-          marginTop: "1%",
-          // overflow:"hidden"
-        }}
-      >
-        <button className="logoutBtn" onClick={logout}>
-          <Link to="/" style={{ textDecoration: "none", color: "beige" }}>
-            Log out
-          </Link>
-        </button>
-
-        <button
-          className="logoutBtn"
-          onClick={() => {
-            copyToClipBoard(newId);
-          }}
-        >
-          {/* Id :: {newId} */}
-          Copy Group Id 
-        </button>
-
-        <button className="logoutBtn">
-          <Link to="/rooms" style={{ textDecoration: "none", color: "beige" }}>
-            All Rooms
-          </Link>
-        </button>
-      </div>
-      <hr
-        style={{
-          maxWidth: "728px",
-          color: "red",
-          backgroundColor: "aliceblue",
-          marginLeft: "10%",
-          marginRight: "10%",
-          display: "block",
-        }}
-      ></hr>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          margin: "1%",
-        }}
-      >
+    <div style={{ backgroundColor:"indigo" ,  textAlign: "-webkit-center" ,borderRadius:"10px"}}>
+      <div style={{ textAlign: "-webkit-center" }}>
         <div
-          className="alert alert-warning"
-          role="alert"
           style={{
-            color: "beige",
-            backgroundColor: "grey",
-            borderColor: "#ffecb5",
-            width: "150px",
-            padding: "0%",
-            display: `${CopySuccess}`,
+            display: "flex",
+            justifyContent: "space-between",
+            // maxWidth: "728px",
+            marginLeft: "5%",
+            marginRight: "5%",
+            marginTop: "1%",
+            borderBottomColor:"lightblue",
+            paddingBottom:"16px",
+            borderBottomStyle:"solid"
+            // background:"#6A0DAD"
+            // overflow:"hidden"
           }}
         >
-          {" "}
-          Copied ✅{" "}
-        </div>
-      </div>
-      <div className="lists">
-        {messageList.map((ele, ind) => {
-          return (
-            // <div>
-            <div
-              style={{
-                display: "flex",
-                color: "white",
-                padding: "8px",
-                borderRadius: "8px",
-                margin: "5%",
-                maxWidth: "728px",
-                justifyContent: `${
-                  ele.userId === auth.currentUser.uid ? "end" : "start"
-                }`,
-                justifyContent: `${
-                  ele.userId === auth.currentUser.uid ? "end" : "start"
-                }`,
-                flexDirection: `${
-                  ele.userId === auth.currentUser.uid ? "row-reverse" : "row"
-                }`,
-              }}
+          <button 
+          style={{
+            background:"#6A0DAD" ,borderRadius:"8px", display:"flex",alignItems:"center"}} className="logoutBtn px-2 py-1 flex self-end" onClick={logout}>
+            <Link to="/" className="flex self-end" style={{ textDecoration: "none", color: "beige" }}>
+              Log out
+            </Link>
+            <span class="ml-2 material-symbols-outlined">
+logout
+</span>
+          </button>
+
+          <button
+          style={{
+            background:"#6A0DAD",borderRadius:"8px", display:"flex",alignItems:"center"}}
+            className="logoutBtn px-2 py-1 flex self-end"
+            onClick={() => {
+              copyToClipBoard(newId);
+            }}
+          >
+            {/* Id :: {newId} */}
+            Copy Group Id
+            <span class="ml-2 material-symbols-outlined">
+content_copy
+</span>
+          </button>
+
+          <button className="logoutBtn px-2 py-1 flex self-end" 
+          style={{
+            background:"#6A0DAD",borderRadius:"8px", display:"flex",alignItems:"center"}}>
+            <Link
+              to="/rooms" className="flex self-end"
+              style={{ textDecoration: "none", color: "beige", display:"flex",alignItems:"center"}}
             >
-              <div style={{ display: "none" }}> {ind++}</div>
-              {/* {setvalue(value+1)} */}
-              <button
-                style={{
-                  alignSelf: "start",
-                  padding: "0%",
-                  fontSize: "1rem",
-                }}
-                type="button"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title={`${ele.name}`}
-              >
-                <img
-                  src={
-                    ele.url ||
-                    "https://th.bing.com/th/id/OIP.zBut8QVH36Vn_Mn84OznCAHaHa?pid=ImgDet&rs=1"
-                  }
-                />
-              </button>
+              All Rooms
+              <span class="ml-2 material-symbols-outlined">
+apps
+</span>
+            </Link>
+          </button>
+        </div>
+     
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            margin: "1%",
+          }}
+        >
+          <div
+            className="alert alert-warning rounded"
+            role="alert"
+            style={{
+              color: "beige",
+              backgroundColor: "grey",
+              borderColor: "#ffecb5",
+              width: "150px",
+              padding: "0%",
+              display: `${CopySuccess}`,
+            }}
+          >
+            {" "}
+            Copied ✅{" "}
+          </div>
+        </div>
+        <div className="lists">
+          {messageList.map((ele, ind) => {
+            return (
+              // <div>
+              <>
+              {ind == 0 ? (
+                <div className="text-white px-2 py-2"> <span style={{backgroundColor:"grey",fontSize: "0.725rem"}} className="bg-blue-400 px-1 py-1 rounded text-xs">{ExtractDatefromDateString(messageList[0].Date)}</span></div>
+              ) : (
+                <div className="text-white  px-2 py-2">
+                  {ExtractDatefromDateString(messageList[ind - 1].Date) ==
+                  ExtractDatefromDateString(messageList[ind].Date) ? (
+                    <></>
+                  ) : (
+                    <div className="text-white px-2 py-2">
+                      <span style={{backgroundColor:"grey",fontSize: "0.725rem"}} className="bg-blue-400 px-1 py-1 rounded text-xs">
+                      {ExtractDatefromDateString(messageList[ind].Date)}</span>
+                    </div>
+                  )}
+                </div>
+              )}
               <div
                 style={{
                   display: "flex",
-                  flexDirection: "column",
-                  alignItems: "start",
-                  justifyContent: "flex-start",
+                  color: "white",
+                  padding: "8px",
+                  borderRadius: "8px",
+                  margin: "1%",
+                  // maxWidth: "728px",
+                  justifyContent: `${
+                    ele.userId === auth.currentUser.uid ? "end" : "start"
+                  }`,
+                  flexDirection: `${
+                    ele.userId === auth.currentUser.uid ? "row-reverse" : "row"
+                  }`,
                 }}
               >
+                
+                {/* <div className="flex-row"> */}
+                <button
+                  style={{
+                    alignSelf: "start",
+                    padding: "0%",
+                    fontSize: "1rem",
+                  }}
+                  type="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title={`${ele.name}`}
+                >
+                  <img
+                    src={
+                      ele.url ||
+                      "https://th.bing.com/th/id/OIP.zBut8QVH36Vn_Mn84OznCAHaHa?pid=ImgDet&rs=1"
+                    }
+                  />
+                </button>
                 <div
                   style={{
                     display: "flex",
-                    color: "white",
-                    padding: `${!ele.desc ? "0px" : "8px"}`,
-                    borderRadius: `${!ele.desc ? "0px" : "8px"}`,
-                    marginLeft: "3px",
-                    marginRight: "3px",
-                    marginTop: "3px",
-                    textAlign: "left",
-                    maxWidth: "300px",
-                    wordBreak: "break-word",
-                    // lineHeight:"normal",
-                    // pointer:"cursor",
-                    backgroundColor: `${
-                      ele.userId !== auth.currentUser.uid
-                        ? "green"
-                        : "hwb(204 29% 22%)"
+                    flexDirection: "column",
+                    alignItems: `${
+                      ele.userId === auth.currentUser.uid ? "end" : "start"
                     }`,
+                    // alignItems: "end",
+                    justifyContent: "flex-start",
                   }}
-                  
                 >
-                  {!ele.desc ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      color: "black",
+                      padding: `${!ele.desc ? "0px" : "8px"}`,
+                      borderRadius: `${!ele.desc ? "0px" : "8px"}`,
+                      marginLeft: "3px",
+                      marginRight: "3px",
+                      marginTop: "3px",
+                      textAlign: "left",
+                      maxWidth: "300px",
+                      wordBreak: "break-word",
+                      fontSize:"14px",
+                      // lineHeight:"normal",
+                      // pointer:"cursor",
+                      backgroundColor: `${
+                        ele.userId !== auth.currentUser.uid
+                          ? "white"
+                          : "#c7d2fe"
+                      }`,
+                    }}
+                  >
+                    {!ele.desc ? (
+                      <img
+                        style={{
+                          width: "250px",
+                          height: "250px",
+                          borderRadius: "12px",
+                          margin: "0px",
+                          border: "solid",
+                          borderColor: "darkcyan",
+                        }}
+                        src={ele.Imgurl}
+                      />
+                    ) : (
+                      ele.desc
+                    )}
+                    {/* <div style={{display:`${ele.userId !== auth.currentUser.uid?"none":"visible"}`}}>&nbsp;</div>  */}
+                    
                     <img
+                      onClick={
+                        ele.userId == auth.currentUser.uid
+                          ? () => {
+                              deleter(ind);
+                            }
+                          : console.log("s")
+                      }
                       style={{
-                        width: "250px",
-                        height: "250px",
-                        borderRadius: "12px",
-                        margin: "0px",
-                        border: "solid",
-                        borderColor: "darkcyan",
+                        alignSelf: "center",
+                        zoom: "50%",
+                        cursor: "pointer",
+                        marginLeft: "11px",
+                        // fontSize:"2px",
+                        display: `${
+                          ele.userId !== auth.currentUser.uid
+                            ? "none"
+                            : "visible"
+                        }`,
                       }}
-                      src={ele.Imgurl}
+                      src={bin}
                     />
-                  ) : (
-                    ele.desc 
-                  )} 
-                  {/* <div style={{display:`${ele.userId !== auth.currentUser.uid?"none":"visible"}`}}>&nbsp;</div>  */}
-                  <img       onClick={ele.userId == auth.currentUser.uid ? ()=>{deleter(ind)}:console.log("s")}
-            style={{alignSelf: "center", zoom: "50%", cursor: "pointer",marginLeft:"11px",display:`${ele.userId !== auth.currentUser.uid?
-                    "none":"visible"}` }} src={bin} />
+                  </div>
+                  <div
+                    className="timer"
+                    style={{
+                      color: "black",
+                      padding: "3px",
+                      borderRadius: "8px",
+                      margin: "3px",
+                      fontSize:"9px",
+                      width: "fit-content",
+                      backgroundColor: `${
+                        ele.userId !== auth.currentUser.uid
+                        ? "white"
+                        : "#c7d2fe"
+                      }`,
+                    }}
+                  >
+                    {ExtractTimefromDateString(ele.Date)}
+                    {/* {ele.Date} */}
+                  </div>
                 </div>
-                <div
-                  className="timer"
-                  style={{
-                    color: "white",
-                    padding: "3px",
-                    borderRadius: "8px",
-                    margin: "3px",
-                    width: "fit-content",
-                    backgroundColor: `${
-                      ele.userId !== auth.currentUser.uid
-                        ? "green"
-                        : "hwb(204 29% 22%)"
-                    }`,
-                  }}
-                >
-                  {ele.Date}
                 </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      {/* <div style={{marginTop:"4%"}}></div> */}
-      {/* <div className="footerDiv">
+              </>
+            );
+          })}
+        </div>
+
+        {/* <div style={{marginTop:"4%"}}></div> */}
+        {/* <div className="footerDiv">
           <div className="footerr" style={{ marginRight:window.innerWidth<=730 ? "1%" : window.innerWidth<=1000 ?"2%" : "14%" }} > <img src={downer} onClick={handleImageClick} /> </div>
       </div> */}
 
-      <div className="footerDiv">
-        <form className="footer" onSubmit={createmessage}>
-          <input
-            className="inputer"
-            placeholder="Your Message ..."
-            onChange={handleinput}
-            value={inputer}
-          />
-          {/* <div> */}
-
-          {/* </div> */}
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignSelf: "end",
-            }}
-          >
-            <img
-              className="Scroller"
-              style={{
-                border: "solid",
-                borderRadius: "30%",
-                padding: "5%",
-                marginLeft: "10%",
-                alignSelf: "center",
-              }}
-              src={downer}
-              onClick={handleImageClick}
+{/* <div class="input-wrapper"> 
+        <input type="text" placeholder="Search..."/> 
+        <button onclick="alert('Button clicked!');"> 
+            🔍 
+        </button> 
+    </div>  */}
+        <div className="footerDiv">
+          <form className="footer" onSubmit={createmessage}>
+            <input
+            
+              className="inputer"
+              placeholder="Your Message ..."
+              onChange={handleinput}
+              value={inputer}
             />
-            <button
+            {/* <div> */}
+
+            {/* </div> */}
+
+            <div
               style={{
-                alignContent: "center",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: "50%",
-                // paddingTop: "20%",
+                display: "flex",
+                flexDirection: "column",
+                alignSelf: "end",
               }}
             >
-              🕊️
-            </button>
-          </div>
-          {/* </div> */}
-        </form>
+              <img
+                className="Scroller"
+                style={{
+                  border: "solid",
+                  borderRadius: "30%",
+                  padding: "5%",
+                  marginLeft: "10%",
+                  alignSelf: "center",
+                  
+                }}
+                src={downer}
+                onClick={handleImageClick}
+              />
+              <button
+                style={{
+                  alignContent: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: "50%",
+                  borderRadius:"10px",
+                  paddingLeft:"20px",
+                  paddingRight:"20px",
+                  // paddingTop: "20%",
+                }}
+              >
+                🕊️
+              </button>
+            </div>
+            {/* </div> */}
+          </form>
 
-        {/* <input
+          {/* <input
         className="footer"
               type="file"
               onChange={(event) => {
@@ -488,18 +564,20 @@ export default function Chatroom() {
               }}
             /> */}
 
-        {/* <button onClick={uploadFile}> Upload Image</button>  */}
+          {/* <button onClick={uploadFile}> Upload Image</button>  */}
 
-        {/* </div>    */}
-        {/* <form onSubmit={handleFireBaseUpload}>
+          {/* </div>    */}
+          {/* <form onSubmit={handleFireBaseUpload}>
         <input 
           type="file"
           onChange={handleImageAsFile}
         />
         <button>upload to firebase</button>
         </form> */}
+        </div>
+        
+        <div className="dummy" id="dummy"></div>
       </div>
-      <div className="dummy" id="dummy"></div>
     </div>
   );
 }

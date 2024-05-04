@@ -95,6 +95,9 @@ function ChatroomList() {
 
     if (title.length == 0) {
       setcheckroomId("block");
+      setTimeout(() => {
+        setcheckroomId("none");
+      }, 1000);
     } else {
       setcheckroomId("none");
       e.preventDefault();
@@ -115,6 +118,9 @@ function ChatroomList() {
     if (ans == 0) {
       // console.log("hhh");
       setcheckroomValid("block");
+      setTimeout(() => {
+        setcheckroomValid("none")
+      }, 1000);
       // Deny="room";
     } else {
       // console.log("cbhhe");
@@ -133,117 +139,131 @@ function ChatroomList() {
   // console.log(roomList);
   return (
     <>
-      <div
+    <div
+  style={{
+    marginTop: "5%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center", // Center align items horizontally
+  }}
+>
+  <div style={{ marginBottom: "2%", display: "flex", alignItems: "center" }}>
+    <div style={{ position: "relative", marginRight: "8px" }}>
+      <input
+        placeholder="Give us a Name"
+        onChange={(e) => {
+          settitle(e.target.value);
+        }}
         style={{
-          marginTop: "5%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
+          padding: "8px", // Increased padding for better input box appearance
+          border: "1px solid #ccc", // Added border for better visibility
+          borderRadius: "20px", // Rounded corners for a softer look
+          width: "400px", // Adjusted input width
+        }}
+      />
+      <button
+        style={{
+          position: "absolute",
+          right: "5px",
+          top: "50%",
+          transform: "translateY(-63%)",
+          backgroundColor: "blue",
+          borderRadius: "20px", // Rounded corners for consistency
+          padding: "5px 16px", // Increased padding for better button appearance
+          color: "white", // Changed text color for better contrast
+          border: "none", // Removed border for cleaner look
+          cursor: "pointer", // Added pointer cursor for better usability
+          transition: "background 0.3s ease", // Smooth transition for hover effect
+          fontSize:"15px"
+        }}
+        onClick={HandleInput}
+      >
+        Create
+      </button>
+    </div>
+    <div style={{ color: "yellow", display: `${checkroomId}` }}>
+      Give a Valid Title
+    </div>
+  </div>
+
+  <div style={{ marginTop:"1%", marginBottom: "2%", display: "flex", alignItems: "center" }}>
+    <div style={{ position: "relative", marginRight: "8px" }}>
+      <input
+        placeholder="Give us an Id"
+        onChange={(e) => {
+          settitlefoot(e.target.value);
+        }}
+        style={{
+          padding: "8px", // Increased padding for better input box appearance
+          border: "1px solid #ccc", // Added border for better visibility
+          borderRadius: "20px", // Rounded corners for a softer look
+          width: "400px", // Adjusted input width
+        }}
+      />
+
+      <button
+        onClick={HandleInputFoot}
+        style={{
+          position: "absolute",
+          right: "5px",
+          top: "50%",
+          transform: "translateY(-63%)",
+          backgroundColor: "blue",
+          borderRadius: "20px", // Rounded corners for consistency
+          padding: "5px 16px", // Increased padding for better button appearance
+          color: "white", // Changed text color for better contrast
+          border: "none", // Removed border for cleaner look
+          cursor: "pointer", // Added pointer cursor for better usability
+          transition: "background 0.3s ease", // Smooth transition for hover effect
+          fontSize:"15px"
         }}
       >
-        <div>
-          <input
-            placeholder="Give us a Name"
-            onChange={(e) => {
-              settitle(e.target.value);
-            }}
-            style={{ marginLeft: "2%" }}
-          />
-          <button
-            style={{
-              backgroundColor: "blue",
-              borderRadius: "10%",
-              padding: "1% 1%",
-              marginBottom: "2%",
-            }}
-            onClick={HandleInput}
-          >
-            Create a Room
-          </button>
-          <div style={{ color: "yellow", display: `${checkroomId}` }}>
-            {" "}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Give a Valid Title{" "}
-          </div>
-        </div>
-
-        <div className="align-items-center">
-          <input
-            placeholder="Give us an Id"
-            onChange={(e) => {
-              settitlefoot(e.target.value);
-            }}
-            style={{ marginLeft: "2%" , webkitTextSecurity: "disc" }}
-          />
-
-          {/* <label> */}
-          <button
-            // type="button"
-            // className=""
-            // style={{ backgroundColor: "primary" }}
-            onClick={HandleInputFoot}
-            style={{
-              backgroundColor: "blue",
-              borderRadius: "10%",
-              padding: "1% 1%",
-            }}
-          >
-            {/* {console.log(checkroomValid, "checkroomValid")} */}
-            {/* <Link to={  checkroomValid=="none" ? `/room/${titlefoot}` : "/rooms"}> */}
-            Join a Room
-            {/* </Link> */}
-          </button>
-          {/* </label> */}
-          <div style={{ color: "yellow", display: `${checkroomValid}` }}>
-            {" "}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Not a Valid Room Id{" "}
-          </div>
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          flexWrap: "wrap",
-          padding: "100px",
-          color: "lavender",
-          marginTop: "1%",
-          marginLeft: "17%",
-          marginRight: "17%",
-        }}
+        Join
+      </button>
+    </div>
+    <div style={{ color: "yellow", display: `${checkroomValid}` }}>
+      Not a Valid Room Id
+    </div>
+  </div>
+</div>
+<div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    padding: "20px",
+    color: "lavender",
+    marginTop: "10%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    backgroundColor: "indigo",
+  }}
+>
+  {roomList.map((room) => (
+    <div
+      key={room.ider}
+      style={{
+        color: "lavender",
+        margin: "10px",
+        width: "170px",
+        border: "1px solid #6D28D9", // Adjusted border color to match indigo shade
+        borderRadius: "8px",
+        padding: "15px",
+        textAlign: "center",
+        backgroundColor: "#6D28D9", // Adjusted background color to match indigo shade
+      }}
+    >
+      <Link
+        to={`/room/${room.ider}`}
+        style={{ color: "#F3EFEF", textDecoration: "none" }} // Adjusted link color to contrast with indigo
       >
-        {/* <form action={HandleInput}> */}
+        {room.title}
+      </Link>
+    </div>
+  ))}
+</div>
 
-        {/* </form> */}
-        {roomList.map((e) => {
-          return (
-            <>
-              <div
-                style={{
-                  color: "lavender",
-                  margin: "1%",
-                }}
-              >
-                <div
-                  className="op"
-                  style={{
-                    width: "170px",
-                    border: "solid",
-                    padding: "25px",
-                    margin: "5px",
-                  }}
-                >
-                  <Link
-                    style={{ color: "cyan", textDecoration: "none" }}
-                    to={`/room/${e.ider}}`}
-                  >
-                    {e.title}
-                  </Link>
-                </div>
-              </div>
-            </>
-          );
-        })}
-      </div>
+
 
       <div></div>
     </>
